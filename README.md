@@ -136,7 +136,7 @@ pro.html.on(200, function (elementInfo) {
 ```
 ---
 
-### <script src="pro.time.js"></script>
+### `<script src="pro.time.js"></script>`
 Right now contains `Countdown` function. Available via `pro.time` object.
 
 ### More features will be included soon...
