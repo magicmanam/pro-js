@@ -6,7 +6,7 @@ Simple and lightweight JS-framework for decomposing your app into code- and html
 ## Features
 
 ### `<script src="pro.js"></script>`
- - defines a set of short aliases for often DOM-methods:
+ - defines short aliases for often DOM-methods:
 
 
 ```javascript
