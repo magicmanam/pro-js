@@ -21,7 +21,7 @@ element.no('event', listener); // removes an event listener
 
 element.proId('sub-element-id'); // gets sub element by id
 element.proClass('class-name'); // gets sub elements by class name
-element.proSelector('css-selector'); // gets elements for specified selector
+element.proSelector('css-selector'); // gets elements by specified selector
 element.proTag('tag-name'); // gets sub elements by tag name
 
 pro.id('element-id'); // gets element by id
@@ -86,7 +86,7 @@ pro.http.to('/api/news') // Defines request to the endpoint
       .out('get'); // Sends 'GET' request
 ```
 
-In case you need to add some HTTP interceptor, subscribe on particular event of `pro.http` object ('open', 'end' or %status code% events):
+In case you need to add some HTTP interceptor, subscribe on special `pro.http` object events: 'open', 'end' or any %status code% -
 
 
 ```javascript
