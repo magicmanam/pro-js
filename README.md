@@ -1,12 +1,13 @@
 # ProJS
 
 Simple and lightweight JS-framework for decomposing your app into code- and html markup- units with fluent interface.
+All modules size: <3KB gzipped, <14KB uncompressed.
 
 
 ## Features
 
 ### `<script src="pro.js"></script>`
- - defines short aliases for often DOM-methods:
+ - defines short aliases for popular DOM-methods:
 
 
 ```javascript
@@ -28,8 +29,8 @@ pro.class('class-name'); // gets elements by class name
 pro.tag('tag-name'); // gets elements by tag name
 document.on('some-event', fn); // adds an event listener
 document.no('some-event', fn); // removes an event listener
-...
 ```
+---
 
 ### `<script src="pro.unit.js"></script>`
  - core of the framework. Introduces code unit with state- and event-concepts support:
@@ -43,7 +44,7 @@ parentUnit.unit('NewsList') // Defines a new unit
      
      me.state('no-news') // Defines an optional state
              .to(function () { // Will be executed on entering into this state
-                proId('blank-text').out('hidden'); // Removes 'hidden' attribute from blank text element
+                proId('blank-text').out('hidden'); // Removes 'hidden' attribute from blank text
              })
              .out(function () { // Optinal callback to be executed on leaving this state
                 proId('blank-text').to('hidden'); // Adds 'hidden' attribute to blank text element
@@ -66,6 +67,7 @@ parentUnit.unit('NewsList') // Defines a new unit
        });      
     }
 ```
+---
 
 ### `<script src="pro.http.js"></script>`
  - a sweet wrapper over XMLHttpRequest object (depends on `pro.unit.js`). Available via `pro.http` object:
@@ -96,6 +98,7 @@ pro.http.on(401, function () {
   loginUnit.to('open');
 });
 ```
+---
 
 ### `<script src="pro.html.js"></script>`
 - loads HTML markup by 'pro-html' tags (depends on `pro.http.js`). Sample:
@@ -105,14 +108,34 @@ pro.http.on(401, function () {
 Content for the element above will be downloaded from the specified url. In case your code unit depends on this markup, use `pro.html` object:
 
 ```javascript
-pro.html.on('news-component.html', function (newsComponentContainerDiv) { // Execute after markup loading
-  
+pro.html.on('news-component.html', function (newsContainerDiv) {
+  // Execute after markup loading
+
   parentUnit.unit('NewsList')
    .on('NewsStore')
    .out(function(newsStore) { ... });
 });
 ```
-   
+
+To handle situations with html missing, subscribe on `pro.html` 404 status code:
+
+```javascript
+pro.html.on(404, function (elementInfo) {
+	//console.log(elementInfo.url + ' was not loaded.');
+	//elementInfo.element.innerHTML = 'Content is missing.';
+});
+```
+
+You can also subscribe on success loading event to manipulate with DOM-element:
+
+```javascript
+pro.html.on(200, function (elementInfo) {
+	//elementInfo.element
+	//elementInfo.url
+});
+```
+---
+
 ### <script src="pro.time.js"></script>
 Right now contains `Countdown` function. Available via `pro.time` object.
 

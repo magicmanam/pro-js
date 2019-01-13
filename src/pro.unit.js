@@ -6,7 +6,6 @@
     function Unit() {
         this.actionsMap = {};
         this.states = {};
-        this.modules = {};
     }
 
     Unit.prototype.state = function (name) {
@@ -149,7 +148,7 @@
                         withDeps = true;
                         dependenciesArray = Array(dependencies.length)
 
-                        for (index; index < dependencies.length; index++) {
+                        for (; index < dependencies.length; index++) {
                             parent.once(dependencies[index], (function (ind) {
                                 return function (dep) {
                                     dependenciesArray[ind] = dep;

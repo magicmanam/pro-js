@@ -20,19 +20,15 @@
                 pro.http
                     .to(htmlUrl)
                     .on(200, function (response) {
-                        let index = response.indexOf('<center><a href="http://somee.com">Web hosting by Somee.com</a></center>');
+                        child.innerHTML = response;
 
-                        if (index > -1) {
-                            child.innerHTML = response.substr(0, index);
-                        } else {
-                            child.innerHTML = response;
-                        }
+                        unit.out(200, { url: htmlUrl, element: child });
                         unit.out(htmlUrl, child);
 
                         proHTML(child.children);
                     })
                     .on(404, function () {
-                        console.log(htmlUrl + ': content was not loaded. Try to refresh the page.');
+                        unit.out(404, { url: htmlUrl, element: child });
                     })
                     .on('end', function () {
                         child.out(PRO_HTML_ATTR);

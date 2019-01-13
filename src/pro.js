@@ -45,62 +45,62 @@ function pro(document, window, withoutDirty) {
         };
     }
 
-    function extendHTMLElementsToProAndDirty(elementPrototype) {
-        if (elementPrototype.on || elementPrototype.in
-            || elementPrototype.out || elementPrototype.toClass
-            || elementPrototype.outClass || elementPrototype.no
-            || elementPrototype.is || elementPrototype.proClass
-            || elementPrototype.proTag || elementPrototype.proId) {
+    function extendHTMLElementsToProAndDirty(elementProto) {
+        if (elementProto.on || elementProto.in
+            || elementProto.out || elementProto.toClass
+            || elementProto.outClass || elementProto.no
+            || elementProto.is || elementProto.proClass
+            || elementProto.proTag || elementProto.proId) {
             throw new Error('Pro JS can not extend HTMLElement to be sweet and dirty! Please pass "withoutDirty" argument "true" in "pro(document, window, withoutDirty)" function in order to start with ProJS.');
         }
 
-        elementPrototype.to = function whichCannotBeFluentCauseOfDefaultValue(attribute, value) {
+        elementProto.to = function whichCannotBeFluentCauseOfDefaultValue(attribute, value) {
             this.setAttribute(attribute, value || '');
             return this;
         };
 
-        elementPrototype.on = function (type, listener, options) {
+        elementProto.on = function (type, listener, options) {
             this.addEventListener(type, listener, options);
             return this;
         };
 
-        elementPrototype.no = function (type, listener, options) {
+        elementProto.no = function (type, listener, options) {
             this.removeEventListener(type, listener, options);
             return this;
         };
 
-        elementPrototype.out = function (attribute) {
+        elementProto.out = function (attribute) {
             this.removeAttribute(attribute);
             return this;
         };
 
-        elementPrototype.toClass = function (className) {
+        elementProto.toClass = function (className) {
             this.classList.add(className);
             return this;
         };
 
-        elementPrototype.outClass = function (className) {
+        elementProto.outClass = function (className) {
             this.classList.remove(className);
             return this;
         };
 
-        elementPrototype.is = function whichCannotBeFluentCauseOfReturnBoolValue(state) {
+        elementProto.is = function whichCannotBeFluentCauseOfReturnBoolValue(state) {
             return this.hasAttribute(state);
         };
 
-        elementPrototype.proTag = function (tagName) {
+        elementProto.proTag = function (tagName) {
             return this.getElementsByTagName(tagName);
         };
 
-        elementPrototype.proClass = function (className) {
+        elementProto.proClass = function (className) {
             return this.getElementsByClassName(className);
         };
 
-        elementPrototype.proSelector = function (selector) {
+        elementProto.proSelector = function (selector) {
             return this.querySelector(selector);
         }
 
-        elementPrototype.proId = function (id) {
+        elementProto.proId = function (id) {
             return this.proSelector('#' + id);
         };
     }
