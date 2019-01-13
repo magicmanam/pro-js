@@ -1,4 +1,6 @@
-﻿(function (pro) {
+﻿pro = pro || {};
+
+(function (pro) {
     'use strict';
 
     function Unit() {
@@ -14,14 +16,14 @@
             throw new Error('State ' + name + ' is already defined.');
         } else {
             this.states[name] = {
-                in: function (callback) {
-                    this.onIn = callback;
+                to: function (callback) {
+                    this.onTo = callback;
                     return this;
                 },
                 out: function (callback) {
                     this.onOut = callback;
                 },
-                onIn: function () { },
+                onTo: function () { },
                 onOut: function () { }
             };
 
@@ -70,7 +72,7 @@
         return this;
     };
 
-    Unit.prototype.in = function (state, value, callback) {
+    Unit.prototype.to = function (state, value, callback) {
         var currentStateHierarchy = this.currentState ? this.currentState.split('.') : [],
             newStateHierarchy = state.split('.'),
             commonState = '';
@@ -87,7 +89,7 @@
         }
 
         while (newStateHierarchy.length > 0) {
-            this.states[commonState + newStateHierarchy[0]].onIn(value, callback);
+            this.states[commonState + newStateHierarchy[0]].onTo(value, callback);
             commonState += newStateHierarchy[0] + '.';
             newStateHierarchy.shift();
         }

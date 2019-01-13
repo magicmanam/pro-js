@@ -1,4 +1,8 @@
-﻿(function (pro) {
+﻿if (!pro || !pro.http) {
+    throw new Error('pro.http module is not loaded yet. Please ensure that "pro.http.js" script included.');
+}
+
+(function (pro) {
     'use strict';
 
     var PRO_HTML_ATTR = 'pro-html',
@@ -14,7 +18,7 @@
                 let htmlUrl = child.getAttribute(PRO_HTML_ATTR);
 
                 pro.http
-                    .in(htmlUrl)
+                    .to(htmlUrl)
                     .on(200, function (response) {
                         let index = response.indexOf('<center><a href="http://somee.com">Web hosting by Somee.com</a></center>');
 

@@ -10,10 +10,6 @@ Simple and lightweight JS-framework for decomposing your app into code- and html
 
 
 ```javascript
-pro.id('element-id'); // gets element by id
-pro.class('class-name'); // gets elements by class name
-pro.tag('tag-name'); // gets elements by tag name
-
 element.to('attribute', value); // adds attribute with optional value, e.g. element.to('hidden')
 element.out('attribute'); // removes attribute from element, e.g. element.out('disabled')
 element.is('attribute'); // checks that element has specified attribute
@@ -27,6 +23,9 @@ element.proClass('class-name'); // gets sub elements by class name
 element.proSelector('css-selector'); // gets elements for specified selector
 element.proTag('tag-name'); // gets sub elements by tag name
 
+pro.id('element-id'); // gets element by id
+pro.class('class-name'); // gets elements by class name
+pro.tag('tag-name'); // gets elements by tag name
 document.on('some-event', fn); // adds an event listener
 document.no('some-event', fn); // removes an event listener
 ...
@@ -73,8 +72,7 @@ parentUnit.unit('NewsList') // Defines a new unit
 
 
 ```javascript
-pro.http
-      .to('/api/news') // Defines request to the endpoint
+pro.http.to('/api/news') // Defines request to the endpoint
       .on(200, function (response) { 
                   newsStore.out('loaded', response);
                }) 

@@ -47,14 +47,14 @@ function pro(document, window, withoutDirty) {
 
     function extendHTMLElementsToProAndDirty(elementPrototype) {
         if (elementPrototype.on || elementPrototype.in
-            || elementPrototype.out || elementPrototype.inClass
+            || elementPrototype.out || elementPrototype.toClass
             || elementPrototype.outClass || elementPrototype.no
             || elementPrototype.is || elementPrototype.proClass
             || elementPrototype.proTag || elementPrototype.proId) {
             throw new Error('Pro JS can not extend HTMLElement to be sweet and dirty! Please pass "withoutDirty" argument "true" in "pro(document, window, withoutDirty)" function in order to start with ProJS.');
         }
 
-        elementPrototype.in = function whichCannotBeFluentCauseOfDefaultValue(attribute, value) {
+        elementPrototype.to = function whichCannotBeFluentCauseOfDefaultValue(attribute, value) {
             this.setAttribute(attribute, value || '');
             return this;
         };
@@ -74,7 +74,7 @@ function pro(document, window, withoutDirty) {
             return this;
         };
 
-        elementPrototype.inClass = function (className) {
+        elementPrototype.toClass = function (className) {
             this.classList.add(className);
             return this;
         };

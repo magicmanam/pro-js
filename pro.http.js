@@ -1,9 +1,11 @@
-﻿(function (pro) {
+﻿pro = pro || {};
+
+(function (pro) {
     'use strict';
 
     pro.http = new pro.Unit();
 
-    pro.http.in = function (url) {
+    pro.http.to = function (url) {
         var xhttp = new XMLHttpRequest(),
             statusCallbacks = {},
             onceCallbacks = [],
