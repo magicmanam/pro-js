@@ -1,7 +1,7 @@
 # ProJS
 
 Simple and lightweight JS-framework for decomposing your app into code- and html markup- units with fluent interface.
-All modules size: <3KB gzipped, <14KB uncompressed.
+All modules size is <3KB gzipped and <14KB uncompressed.
 
 
 ## Features
@@ -14,8 +14,8 @@ All modules size: <3KB gzipped, <14KB uncompressed.
 element.to('attribute', value); // adds attribute with optional value, e.g. element.to('hidden')
 element.out('attribute'); // removes attribute from element, e.g. element.out('disabled')
 element.is('attribute'); // checks that element has specified attribute
-element.toClass('class-name'); // adds css-class to element's class list
-element.outClass('class-name'); // removes css-class from element's class list
+element.toClass('class-name'); // adds css-class to element
+element.outClass('class-name'); // removes css-class from element
 element.on('event', listener); // adds an event listener
 element.no('event', listener); // removes an event listener
 
@@ -39,7 +39,7 @@ document.no('some-event', fn); // removes an event listener
 ```javascript
 parentUnit.unit('NewsList') // Defines a new unit
    .on('NewsStore') // Optional method, points to pro-dependencies (similar units)
-   .out(function(newsStore) { // Will be executed upon unit creation ('this' scopes to an unit itself)
+   .out(function (newsStore) { // Will be executed upon unit creation ('this' scopes to an unit itself)
      var me = this;
      
      me.state('no-news') // Defines an optional state
@@ -113,7 +113,7 @@ pro.html.on('news-component.html', function (newsContainerDiv) {
 
   parentUnit.unit('NewsList')
    .on('NewsStore')
-   .out(function(newsStore) { ... });
+   .out(function (newsStore) { ... });
 });
 ```
 
