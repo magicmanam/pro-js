@@ -6,7 +6,7 @@ The framework is made of several `pro.*.js` files with total size *<3KB gzipped 
 
 ## Pro features per files
 
-### `<script src="pro.js"></script>`
+### &lt;script src="pro.js">&lt;/script>
  - defines short aliases for popular DOM-methods:
 
 
@@ -32,7 +32,7 @@ document.no('some-event', fn); // removes an event listener
 ```
 ---
 
-### `<script src="pro.unit.js"></script>`
+### &lt;script src="pro.unit.js">&lt;/script>
  - introduces code unit with *states and event-based model*:
 
 ```javascript
@@ -89,13 +89,13 @@ app.unit('NewsList') // Defines another 'NewsList' unit
 ```
 ---
 
-### `<script src="pro.http.js"></script>` (depends on `pro.unit.js`)
+### &lt;script src="pro.http.js">&lt;/script> (depends on **pro.unit.js**)
  - a sweet wrapper over _XMLHttpRequest_ object. Available via `pro.http` object:
 
 
 ```javascript
      // Below is how 'NewsStore' unit's code can be enhanced
-     this.on('some-event', function (*eventModel*) {
+     this.on('some-event', function (eventModel) {
 	pro.http.to('/api/news') // Defines request to the endpoint
 	      .on(200, function (response) { 
 			  newsStore.out('newsLoaded', response);
@@ -123,7 +123,7 @@ pro.http.on(401, function () {
 ```
 ---
 
-### `<script src="pro.html.js"></script>` (depends on `pro.http.js`)
+### &lt;script src="pro.html.js">&lt;/script> (depends on **pro.http.js**)
 - loads HTML markup by *'pro-html'* tags:
 
 `<div pro-html="news-component.html"></div>`
@@ -159,12 +159,15 @@ pro.html.on(200, function (elementInfo) {
 ```
 ---
 
-### `<script src="pro.time.js"></script>`
+### &lt;script src="pro.time.js">&lt;/script>
 
 - contains time-related helpers. Available via `pro.time` object.
 
-### More features will be included soon...
-   
+---
+
+### More features are coming soon...
+
+
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)
