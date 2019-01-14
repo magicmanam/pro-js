@@ -1,7 +1,7 @@
 # ProJS
 
 Simple and lightweight JS-framework for decomposing your app into code- and html markup- units with fluent interface.
-All modules size is <3KB gzipped and <14KB uncompressed.
+All modules size is *<3KB gzipped and <14KB uncompressed*.
 
 
 ## Features
@@ -33,7 +33,7 @@ document.no('some-event', fn); // removes an event listener
 ---
 
 ### `<script src="pro.unit.js"></script>`
- - core of the framework. Introduces code unit with state- and event-concepts support:
+ - introduces code unit with *states and event-based model*:
 
 
 ```javascript
@@ -70,7 +70,7 @@ parentUnit.unit('NewsList') // Defines a new unit
 ---
 
 ### `<script src="pro.http.js"></script>`
- - a sweet wrapper over XMLHttpRequest object (depends on `pro.unit.js`). Available via `pro.http` object:
+ - a sweet wrapper over _XMLHttpRequest_ object (depends on `pro.unit.js`). Available via `pro.http` object:
 
 
 ```javascript
@@ -86,7 +86,7 @@ pro.http.to('/api/news') // Defines request to the endpoint
       .out('get'); // Sends 'GET' request
 ```
 
-In case you need to add some HTTP interceptor, subscribe on special `pro.http` object events: 'open', 'end' or any %status code% -
+There are special `pro.http` object events: *'open'*, *'end'*, any *%status code%* (e.g. 403, 500) - to add some HTTP-interceptor:
 
 
 ```javascript
@@ -101,7 +101,7 @@ pro.http.on(401, function () {
 ---
 
 ### `<script src="pro.html.js"></script>`
-- loads HTML markup by 'pro-html' tags (depends on `pro.http.js`). Sample:
+- loads HTML markup by *'pro-html'* tags (depends on `pro.http.js`):
 
 `<div pro-html="news-component.html"></div>`
 
@@ -126,7 +126,7 @@ pro.html.on(404, function (elementInfo) {
 });
 ```
 
-You can also subscribe on success loading event to manipulate with DOM-element:
+Subscribe on success loading event to manipulate with DOM-element:
 
 ```javascript
 pro.html.on(200, function (elementInfo) {
@@ -137,7 +137,8 @@ pro.html.on(200, function (elementInfo) {
 ---
 
 ### `<script src="pro.time.js"></script>`
-Right now contains `Countdown` function. Available via `pro.time` object.
+
+- contains time-related helpers. Available via `pro.time` object.
 
 ### More features will be included soon...
    
