@@ -1,10 +1,10 @@
 # ProJS
 
-Simple and lightweight JS-framework for decomposing your app into code- and html markup- units with fluent interface.
-All modules size is *<3KB gzipped and <14KB uncompressed*.
+Simple and lightweight JS-framework for decomposing app into code- and html markup- *units* with fluent interface.
+The framework is made of several `pro.*.js` files with total size *<3KB gzipped and <14KB uncompressed*.
 
 
-## Features
+## Pro features per files
 
 ### `<script src="pro.js"></script>`
  - defines short aliases for popular DOM-methods:
@@ -35,11 +35,31 @@ document.no('some-event', fn); // removes an event listener
 ### `<script src="pro.unit.js"></script>`
  - introduces code unit with *states and event-based model*:
 
+```javascript
+ var app = new pro.Unit(); // Initializes a new application unit
+```
 
 ```javascript
-parentUnit.unit('NewsList') // Defines a new unit
-   .on('NewsStore') // Optional method, points to pro-dependencies (similar units)
-   .out(function (newsStore) { // Will be executed upon unit creation ('this' scopes to an unit itself)
+ app.unit('NewsStore') // Defines 'NewsStore' unit inside of the application unit
+    .out(function () { // Initialization function. 'this' refers to the unit 
+       var me = this;
+       // Below is a sample of subscription on some event
+       this.on('some-event', function (eventModel) {
+         // Just imagine that 'retrieveNews' function somewhere exists
+	 var newsModel = retrieveNews(eventModel);
+	 // Notify all subscribers that news are loaded
+         me.out('newsLoaded', newsModel);
+       });
+       ...
+       // Or notify about smth else
+       this.out('any-event', withOptionalEventDataObject);
+    });
+```
+
+```javascript
+app.unit('NewsList') // Defines another 'NewsList' unit
+   .on('NewsStore') // Optional method, points to unit's dependencies
+   .out(function (newsStore) {
      var me = this;
      
      me.state('no-news') // Defines an optional state
@@ -54,9 +74,9 @@ parentUnit.unit('NewsList') // Defines a new unit
                  ...
               });
        
-       me.to('no-news'); // Go to initial state
+       me.to('no-news'); // Go to initial state if you wish...
        
-       newsStore.on('loaded', function (newsList) { // Subscribes on fresh news
+       newsStore.on('newsLoaded', function (newsList) { // Subscribes on fresh news
           if (newsList && newsList.length > 0) {
             me.to('news', newsList);
           }
@@ -69,21 +89,24 @@ parentUnit.unit('NewsList') // Defines a new unit
 ```
 ---
 
-### `<script src="pro.http.js"></script>`
- - a sweet wrapper over _XMLHttpRequest_ object (depends on `pro.unit.js`). Available via `pro.http` object:
+### `<script src="pro.http.js"></script>` (depends on `pro.unit.js`)
+ - a sweet wrapper over _XMLHttpRequest_ object. Available via `pro.http` object:
 
 
 ```javascript
-pro.http.to('/api/news') // Defines request to the endpoint
-      .on(200, function (response) { 
-                  newsStore.out('loaded', response);
-               }) 
-      .on(204, function () { 
-                  newsStore.out('loaded', null);
-               }) // Just subscribe on any status code you need
-      .on('success|fail|end', callback) // Well-known events
-      .header('Content-Type', 'application/json') // Any header is welcome
-      .out('get'); // Sends 'GET' request
+     // Below is how 'NewsStore' unit's code can be enhanced
+     this.on('some-event', function (*eventModel*) {
+	pro.http.to('/api/news') // Defines request to the endpoint
+	      .on(200, function (response) { 
+			  newsStore.out('newsLoaded', response);
+		       }) 
+	      .on(204, function () { 
+			  newsStore.out('newsLoaded', null);
+		       }) // Just subscribe on any status code you need
+	      .on('success|fail|end', callback) // Well-known events
+	      .header('Content-Type', 'application/json') // Any header is welcome
+	      .out('get'); // Sends 'GET' request
+     });
 ```
 
 There are special `pro.http` object events: *'open'*, *'end'*, any *%status code%* (e.g. 403, 500) - to add some HTTP-interceptor:
@@ -100,8 +123,8 @@ pro.http.on(401, function () {
 ```
 ---
 
-### `<script src="pro.html.js"></script>`
-- loads HTML markup by *'pro-html'* tags (depends on `pro.http.js`):
+### `<script src="pro.html.js"></script>` (depends on `pro.http.js`)
+- loads HTML markup by *'pro-html'* tags:
 
 `<div pro-html="news-component.html"></div>`
 
