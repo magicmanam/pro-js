@@ -3,9 +3,9 @@
 (function (pro) {
     'use strict';
 
-    pro.http = new pro.Unit();
+    var unit = new pro.Unit();
 
-    pro.http.to = function (url) {
+    unit.to = function (url) {
         var xhttp = new XMLHttpRequest(),
             statusCallbacks = {},
             onceCallbacks = [],
@@ -18,7 +18,7 @@
                 let callbacks = statusCallbacks[status] || [];
                 let response = this.responseText;
 
-                pro.http.out(status, response);
+                unit.out(status, response);
 
                 callbacks.forEach(function (callback) {
                     callback(response);
@@ -43,7 +43,7 @@
                     callback(response, status);
                 });
 
-                pro.http.out('end', response);
+                unit.out('end', response);
             }
         };
 
@@ -73,7 +73,7 @@
                 that.out(verb, data);
             },
             out: function (verb, data, raw) {
-                pro.http.out('open', that);
+                unit.out('open', that);
 
                 xhttp.open(verb, url, !sync);
                 headers.forEach(function (header) {
@@ -82,16 +82,22 @@
                 xhttp.send(raw ? data : JSON.stringify(data));
             },
             outString: function (verb, data) {
-                pro.http.out('open', that);
+                unit.out('open', that);
 
                 xhttp.open(verb, url, !sync);
                 headers.forEach(function (header) {
                     xhttp.setRequestHeader(header.h, header.v);
                 })
                 xhttp.send(data);
-            }
+            },
+            get: function () { that.out('get'); },
+            post: function (data, raw) { that.out('post', data, raw); },
+            put: function (data, raw) { that.out('put', data, raw); },
+            delete: function (data, raw) { that.out('delete', data, raw); }
         };
 
         return that;
     };
+
+    pro.http = unit;
 })(pro);

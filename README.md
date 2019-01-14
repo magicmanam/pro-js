@@ -41,7 +41,7 @@ document.no('some-event', fn); // removes an event listener
 
 ```javascript
  app.unit('NewsStore') // Defines 'NewsStore' unit inside of the application unit
-    .out(function () { // Initialization function. 'this' refers to the unit 
+    .out(function () { // Initialization function. 'this' refers to the unit itself
        var me = this;
        // Below is a sample of subscription on some event
        this.on('some-event', function (eventModel) {
@@ -90,7 +90,7 @@ app.unit('NewsList') // Defines another 'NewsList' unit
 ---
 
 ### &lt;script src="pro.http.js">&lt;/script> (depends on **pro.unit.js**)
- - a sweet wrapper over _XMLHttpRequest_ object. Available via `pro.http` object:
+ - a sweet wrapper over *XMLHttpRequest* object. Available via `pro.http` object:
 
 
 ```javascript
@@ -105,11 +105,20 @@ app.unit('NewsList') // Defines another 'NewsList' unit
 		       }) // Just subscribe on any status code you need
 	      .on('success|fail|end', callback) // Well-known events
 	      .header('Content-Type', 'application/json') // Any header is welcome
-	      .out('get'); // Sends 'GET' request
+	      .get(); // Sends 'GET' request
      });
 ```
 
-There are special `pro.http` object events: *'open'*, *'end'*, any *%status code%* (e.g. 403, 500) - to add some HTTP-interceptor:
+Send other types of requests:
+```javascript
+	pro.http.to('api/news')
+		.post({ title: 'ProJS framework released!', text: 'Good news for all of you!' })
+		//.put({ text: 'Frontend future is elegant with ProJS!' })
+		//.delete({ text: 'Angular + React + VueJS' })
+		//.out('%HTTP_VERB%', data); // - generic request
+```
+
+There are special `pro.http` object events: **'open'**, **'end'**, any **%status code%** (e.g. 403, 500) - to add some HTTP-interceptor:
 
 
 ```javascript
@@ -124,7 +133,7 @@ pro.http.on(401, function () {
 ---
 
 ### &lt;script src="pro.html.js">&lt;/script> (depends on **pro.http.js**)
-- loads HTML markup by *'pro-html'* tags:
+- loads HTML markup by **'pro-html'** tags:
 
 `<div pro-html="news-component.html"></div>`
 
