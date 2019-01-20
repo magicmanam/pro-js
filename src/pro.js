@@ -1,6 +1,10 @@
-﻿var pro = pro(document, window);
+﻿if (pro) {
+    throw new Error('"pro.js" file must me loaded first.');
+}
 
-function pro(document, window, withoutDirty) {
+pro = pro(document, window);
+
+function pro(document, window) {
     'use strict';
 
     var pro = {
@@ -31,19 +35,17 @@ function pro(document, window, withoutDirty) {
         return document.getElementById(id);
     };
 
-    if (!withoutDirty) {
-        extendHTMLElementsToProAndDirty(HTMLElement.prototype);
+    extendHTMLElementsToProAndDirty(HTMLElement.prototype);
 
-        HTMLDocument.prototype.on = function (type, listener, options) {
-            this.addEventListener(type, listener, options);
-            return this;
-        };
+    HTMLDocument.prototype.on = function (type, listener, options) {
+        this.addEventListener(type, listener, options);
+        return this;
+    };
 
-        HTMLDocument.prototype.no = function (type, listener, options) {
-            this.removeEventListener(type, listener, options);
-            return this;
-        };
-    }
+    HTMLDocument.prototype.no = function (type, listener, options) {
+        this.removeEventListener(type, listener, options);
+        return this;
+    };
 
     function extendHTMLElementsToProAndDirty(elementProto) {
         if (elementProto.on || elementProto.in

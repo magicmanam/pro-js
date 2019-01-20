@@ -1,5 +1,5 @@
 ﻿if (!pro || !pro.http) {
-    throw new Error('pro.http module is not loaded yet. Please ensure that "pro.http.js" script included.');
+    throw new Error('Please ensure that "pro.http.js" file loaded.');
 }
 
 (function (pro) {
@@ -33,7 +33,7 @@
                     .on('end', function () {
                         child.out(PRO_HTML_ATTR);
                     })
-                    .out('GET');
+                    .get();
             } else {
                 proHTML(child.children);
             }

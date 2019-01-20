@@ -38,9 +38,7 @@
         this.actionsMap[action] = actionData;
     };
 
-    Unit.prototype.on = on;
-
-    function on(action, listener, skipLast) {
+    Unit.prototype.on = function (action, listener, skipLast) {
         var actionData = this.getActionData(action);
 
         if (actionData) {
@@ -50,6 +48,7 @@
             }
         } else {
             this.setActionData(action, { listeners: [listener], onceListeners: [] });
+            this[action] = function (model, callback) { this.out(action, model, callback); };
         }
 
         return this;
@@ -66,6 +65,7 @@
             }
         } else {
             this.setActionData(action, { listeners: [], onceListeners: [callback] });
+            this[action] = function (model, callback) { this.out(action, model, callback); };
         }
 
         return this;

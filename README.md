@@ -49,6 +49,7 @@ document.no('some-event', fn); // removes an event listener
 	 var newsModel = retrieveNews(eventModel);
 	 // Notify all subscribers that news are loaded
          me.out('newsLoaded', newsModel);
+         //me.newsLoaded(newsModel); - shortcut for the line above. Available only if some listener is already exist!!! 
        });
        ...
        // Or notify about smth else
