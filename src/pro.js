@@ -1,8 +1,4 @@
-﻿if (pro) {
-    throw new Error('"pro.js" file must me loaded first.');
-}
-
-pro = pro(document, window);
+﻿var pro = pro(document, window);
 
 function pro(document, window) {
     'use strict';

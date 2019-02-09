@@ -1,8 +1,19 @@
 # ProJS
 
 Simple and lightweight JS-framework for decomposing app into code- and html markup- *units* with fluent interface.
-The framework is made of several `pro.*.js` files with total size *<3KB gzipped and <14KB uncompressed*.
+The framework is made of several `pro.*.js` files with total size *<4KB gzipped and <18KB uncompressed*.
 
+```html
+    <script src="pro.js"></script>
+    <script src="pro.core.js"></script>
+    <script src="pro.data.js"></script>
+    <script src="pro.mvvm.js"></script>
+    <script src="pro.unit.js"></script>
+    <script src="pro.http.js"></script>
+    <script src="pro.tree.js"></script>
+    <script src="pro.load.js"></script>
+    <script src="pro.time.js"></script>
+```
 
 ## Pro features per files
 
@@ -32,8 +43,13 @@ document.no('some-event', fn); // removes an event listener
 ```
 ---
 
-### &lt;script src="pro.unit.js">&lt;/script>
- - introduces code unit with *states and event-based model*:
+### &lt;script src="pro.core.js">&lt;/script>
+ - framework's basis which provides event-based programming model. `pro.core` constructor-function can be used to create new ProJS-like components with on/once/out interface.
+
+---
+
+### &lt;script src="pro.unit.js">&lt;/script> (depends on **pro.core.js**)
+ - introduces unit with *states model*:
 
 ```javascript
  var app = new pro.Unit(); // Initializes a new application unit
@@ -85,12 +101,14 @@ app.unit('NewsList') // Defines another 'NewsList' unit
           {
             me.out('empty'); // Notify 'NewsList' unit subscribers that news control is empty
           }
-       });      
+       });
     }
 ```
+
+*Also you can define hierarchical states (like 'news.expanded' and so on). Please see sources to have more details.*
 ---
 
-### &lt;script src="pro.http.js">&lt;/script> (depends on **pro.unit.js**)
+### &lt;script src="pro.http.js">&lt;/script> (depends on **pro.core.js**)
  - a sweet wrapper over *XMLHttpRequest* object. Available via `pro.http` object:
 
 
@@ -133,15 +151,29 @@ pro.http.on(401, function () {
 ```
 ---
 
-### &lt;script src="pro.html.js">&lt;/script> (depends on **pro.http.js**)
-- loads HTML markup by **'pro-html'** tags:
+### &lt;script src="pro.tree.js">&lt;/script> (depends on **pro.core.js**)
+ - performs DOM-tree traversal in depth to be used by other framework components:
+ 
+ ```javascript
+ //Initializes tree traversal
+ pro.tree.depth(document.children);
 
-`<div pro-html="news-component.html"></div>`
+ //In case you need to add some custom logic
+ pro.tree.on('leaf', function (element) {
+ 	 //Your logic here;
+ });
+ ```
+---
 
-Content for the element above will be downloaded from the specified url. In case your code unit depends on this markup, use `pro.html` object:
+### &lt;script src="pro.load.js">&lt;/script> (depends on **pro.http.js** and **pro.tree.js**)
+- subscribes on DOM-tree traversal and loads HTML markup content for elements with **'pro-load'** tags:
+
+`<div pro-load="news-component.html"></div>`
+
+Content for the element above will be downloaded from the specified url. In case your code unit depends on this markup, use `pro.load` object:
 
 ```javascript
-pro.html.on('news-component.html', function (newsContainerDiv) {
+pro.load.on('news-component.html', function (newsContainerDiv) {
   // Execute after markup loading
 
   parentUnit.unit('NewsList')
@@ -150,10 +182,10 @@ pro.html.on('news-component.html', function (newsContainerDiv) {
 });
 ```
 
-To handle situations with html missing, subscribe on `pro.html` 404 status code:
+To handle situations with html missing, subscribe on `pro.load` 404 status code:
 
 ```javascript
-pro.html.on(404, function (elementInfo) {
+pro.load.on(404, function (elementInfo) {
 	//console.log(elementInfo.url + ' was not loaded.');
 	//elementInfo.element.innerHTML = 'Content is missing.';
 });
@@ -162,11 +194,36 @@ pro.html.on(404, function (elementInfo) {
 Subscribe on success loading event to manipulate with DOM-element:
 
 ```javascript
-pro.html.on(200, function (elementInfo) {
+pro.load.on(200, function (elementInfo) {
 	//elementInfo.element
 	//elementInfo.url
 });
 ```
+---
+
+### &lt;script src="pro.data.js">&lt;/script> (depends on **pro.core.js**)
+
+- introduces observable model:
+
+``` javascript
+var model = { topic: 'Sample', text: 'Observable model' },
+    article = new pro.data(model);// or just 'new pro.data();'
+
+article();// returns model object: { topic: 'Sample', text: 'Observable model' }
+article.topic();// returns topic string: 'Sample'
+
+article.on(function (model) {
+	// all article's model was changed
+});
+article({ topic: 'New article', text: '' });// triggers the callback above
+
+article.topic.on(function (topic) {
+	// only topic was changed
+});//Subscribe on some property change
+article.topic('New topic');// triggers the callback above
+
+```
+
 ---
 
 ### &lt;script src="pro.time.js">&lt;/script>

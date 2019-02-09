@@ -1,12 +1,17 @@
-﻿pro = pro || {};
+﻿if (!pro || !pro.core) {
+    throw new Error('pro.core.js is missing');
+}
 
 (function (pro) {
     'use strict';
 
     function Unit() {
-        this.actionsMap = {};
+        pro.core.apply(this, arguments);
         this.states = {};
     }
+
+    Unit.prototype = Object.create(pro.core.prototype);
+    Unit.prototype.constructor = Unit;
 
     Unit.prototype.state = function (name) {
         var module = this;
@@ -28,47 +33,6 @@
 
             return this.states[name];
         }
-    };
-
-    Unit.prototype.getActionData = function (action) {
-        return this.actionsMap[action];
-    };
-
-    Unit.prototype.setActionData = function (action, actionData) {
-        this.actionsMap[action] = actionData;
-    };
-
-    Unit.prototype.on = function (action, listener, skipLast) {
-        var actionData = this.getActionData(action);
-
-        if (actionData) {
-            actionData.listeners.push(listener);
-            if (actionData.containsEventValue && !skipLast) {
-                listener(actionData.lastEventValue);
-            }
-        } else {
-            this.setActionData(action, { listeners: [listener], onceListeners: [] });
-            this[action] = function (model, callback) { this.out(action, model, callback); };
-        }
-
-        return this;
-    }
-
-    Unit.prototype.once = function (action, callback, skipLast) {
-        var actionData = this.getActionData(action);
-
-        if (actionData) {
-            if (actionData.containsEventValue && !skipLast) {
-                callback(actionData.lastEventValue);
-            } else {
-                actionData.onceListeners.push(callback);
-            }
-        } else {
-            this.setActionData(action, { listeners: [], onceListeners: [callback] });
-            this[action] = function (model, callback) { this.out(action, model, callback); };
-        }
-
-        return this;
     };
 
     Unit.prototype.to = function (state, value, callback) {
@@ -102,25 +66,6 @@
 
     Unit.prototype.is = function (state) {
         return state === this.currentState;
-    };
-
-    Unit.prototype.out = function (action, value, callback) {
-        var eventData = this.getActionData(action);
-
-        if (eventData) {
-            eventData.listeners = eventData.listeners || [];
-            eventData.listeners.forEach(function (listener) {
-                listener(value, callback);
-            });
-            eventData.onceListeners.forEach(function (listener) {
-                listener(value, callback);
-            });
-            eventData.onceListeners = [];
-            eventData.lastEventValue = value;
-            eventData.containsEventValue = true;
-        } else {
-            this.setActionData(action, { lastEventValue: value, listeners: [], onceListeners: [], containsEventValue: true });
-        }
     };
 
     Unit.prototype.unit = function (name) {

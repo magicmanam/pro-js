@@ -1,11 +1,13 @@
-﻿pro = pro || {};
+﻿if (!pro || !pro.core) {
+    throw new Error('pro.core.js is missing');
+}
 
 (function (pro) {
     'use strict';
 
-    var unit = new pro.Unit();
+    var core = new pro.core();
 
-    unit.to = function (url) {
+    core.to = function (url) {
         var xhttp = new XMLHttpRequest(),
             statusCallbacks = {},
             onceCallbacks = [],
@@ -18,7 +20,7 @@
                 let callbacks = statusCallbacks[status] || [];
                 let response = this.responseText;
 
-                unit.out(status, response);
+                core.out(status, response);
 
                 callbacks.forEach(function (callback) {
                     callback(response);
@@ -43,7 +45,7 @@
                     callback(response, status);
                 });
 
-                unit.out('end', response);
+                core.out('end', response);
             }
         };
 
@@ -73,7 +75,7 @@
                 that.out(verb, data);
             },
             out: function (verb, data, raw) {
-                unit.out('open', that);
+                core.out('open', that);
 
                 xhttp.open(verb, url, !sync);
                 headers.forEach(function (header) {
@@ -82,7 +84,7 @@
                 xhttp.send(raw ? data : JSON.stringify(data));
             },
             outString: function (verb, data) {
-                unit.out('open', that);
+                core.out('open', that);
 
                 xhttp.open(verb, url, !sync);
                 headers.forEach(function (header) {
@@ -99,5 +101,5 @@
         return that;
     };
 
-    pro.http = unit;
+    pro.http = core;
 })(pro);
