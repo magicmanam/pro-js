@@ -1,5 +1,5 @@
 ```html
-<!-- Total size <4KB gzipped or <18KB uncompressed -->
+<!-- Total size < 4KB gzipped or < 18KB uncompressed -->
 <script src="pro.js"></script>     <!-- DOM-methods aliases -->
 <script src="pro.core.js"></script><!-- Framework's heart... -->
 <script src="pro.unit.js"></script><!-- App units with states and DI -->
