@@ -1,19 +1,21 @@
-> Simple and lightweight JS-framework for decomposing app into code- and html markup- *units* with fluent interface.
+> Simple JS-framework with fluent interface to decompose your app into code- and html markup- *parts*.
 > The framework is made of several `pro.*.js` files with total size *<4KB gzipped and <18KB uncompressed*.
 
+<br>
+
 ```html
-    <script src="pro.js"></script><!-- DOM-methods aliases -->
+    <script src="pro.js"></script>     <!-- DOM-methods aliases -->
     <script src="pro.core.js"></script><!-- Framework's heart... -->
-    <script src="pro.unit.js"></script><!-- Extends pro.core with states -->
+    <script src="pro.unit.js"></script><!-- App units with states and DI -->
     <script src="pro.http.js"></script><!-- Sweet HTTP client -->
-    <script src="pro.tree.js"></script><!-- DOM processing -->
+    <script src="pro.tree.js"></script><!-- DOM-tree traversal -->
     <script src="pro.load.js"></script><!-- Dynamic markup loading -->
     <script src="pro.mvvm.js"></script>
     <script src="pro.data.js"></script><!-- Observable objects -->
     <script src="pro.time.js"></script><!-- Time-functions -->
 ```
 
-## Pro features per files
+## Framework features per files
 
 ### &lt;script src="pro.js">&lt;/script>
  - defines short aliases for popular DOM-methods:
@@ -48,11 +50,14 @@ document.no('some-event', fn); // removes an event listener
  ```javascript
  var module = new pro.core();
 
- /* subscribe on event. By default listener will be executed immidiately for the last event's data if event was already triggered.
-To override this behavior pass the third parameter 'skipLast' = true */ 
- module.on('event', function (eventData) {
-							console.log('Event was triggered: ' + eventData);
-						}, /* skipLast */);
+ /* Subscribe on event.
+    By default listener will be executed immediately for the last event's data if event was triggered.
+    Pass the third parameter 'skipLast' = true to override this. */ 
+ module.on('event',
+           function (eventData) {
+              console.log('Event was triggered: ' + eventData);
+           }
+           /*, true */);
 
 //trigger event. Pass optional callback as the third argument to be executed after all 'event'-listeners
  module.out('event', 23 /*, function () { console.log('Well done!'); } */);
@@ -61,7 +66,7 @@ To override this behavior pass the third parameter 'skipLast' = true */
  //    Well done!
  
  //One-time listener
- module.once('event', function (eventData) { } /*, skipLast */);
+ module.once('event', function (eventData) { } /*, true */);
  ```
  
  `pro.core` object allows to register global error handler for all listeners added via `on` and `once` as well as for `out` callbacks:
@@ -88,7 +93,8 @@ pro.core.error(function (err) { console.log(err); });
 	 var newsModel = retrieveNews(eventModel);
 	 // Notify all subscribers that news are loaded
          me.out('newsLoaded', newsModel);
-         //me.newsLoaded(newsModel); - shortcut for the line above. Available only if some listener is already exist!!! 
+         // me.newsLoaded(newsModel); - shortcut for the line above.
+         // Available only if some listener is already exist!!! 
        });
        ...
        // Or notify about smth else
@@ -128,7 +134,7 @@ app.unit('NewsList') // Defines another 'NewsList' unit
     }
 ```
 
-*Also you can define hierarchical states (like 'news.expanded' and so on). Please see sources to have more details.*
+> You can define hierarchical states (separated with periods like 'news.expanded'). See sources for more details
 ---
 
 ### &lt;script src="pro.http.js">&lt;/script> (depends on **pro.core.js**)
@@ -254,9 +260,6 @@ article.topic('New topic');// triggers the callback above
 - contains time-related helpers. Available via `pro.time` object.
 
 ---
-
-### More features are coming soon...
-
 
 ## License
 
