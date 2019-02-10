@@ -60,7 +60,7 @@
 
             varString += 'var ' + key + '=' + JSON.stringify(model) + ';';
             
-            eval(varString + func);
+            eval('(function(){' + varString + func + '})()');
         }
         evalWithVariables(proExpression, new Glue());
     }

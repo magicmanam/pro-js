@@ -1,18 +1,14 @@
-> Simple JS-framework with fluent interface to decompose your app into code- and html markup- *parts*.
-> The framework is made of several `pro.*.js` files with total size *<4KB gzipped and <18KB uncompressed*.
-
-<br>
-
 ```html
-    <script src="pro.js"></script>     <!-- DOM-methods aliases -->
-    <script src="pro.core.js"></script><!-- Framework's heart... -->
-    <script src="pro.unit.js"></script><!-- App units with states and DI -->
-    <script src="pro.http.js"></script><!-- Sweet HTTP client -->
-    <script src="pro.tree.js"></script><!-- DOM-tree traversal -->
-    <script src="pro.load.js"></script><!-- Dynamic markup loading -->
-    <script src="pro.mvvm.js"></script>
-    <script src="pro.data.js"></script><!-- Observable objects -->
-    <script src="pro.time.js"></script><!-- Time-functions -->
+<!-- Total size <4KB gzipped or <18KB uncompressed -->
+<script src="pro.js"></script>     <!-- DOM-methods aliases -->
+<script src="pro.core.js"></script><!-- Framework's heart... -->
+<script src="pro.unit.js"></script><!-- App units with states and DI -->
+<script src="pro.http.js"></script><!-- Sweet HTTP client -->
+<script src="pro.tree.js"></script><!-- DOM-tree traversal -->
+<script src="pro.load.js"></script><!-- Dynamic markup loading -->
+<script src="pro.mvvm.js"></script>
+<script src="pro.data.js"></script><!-- Observable objects -->
+<script src="pro.time.js"></script><!-- Time-functions -->
 ```
 
 ## Framework features per files
@@ -20,162 +16,146 @@
 ### &lt;script src="pro.js">&lt;/script>
  - defines short aliases for popular DOM-methods:
 
-
 ```javascript
-element.to('attribute', value); // adds attribute with optional value, e.g. element.to('hidden')
-element.out('attribute'); // removes attribute from element, e.g. element.out('disabled')
-element.is('attribute'); // checks that element has specified attribute
-element.toClass('class-name'); // adds css-class to element
-element.outClass('class-name'); // removes css-class from element
-element.on('event', listener); // adds an event listener
-element.no('event', listener); // removes an event listener
+pro.id('element-id'); // Gets element by id
+pro.class('class-name'); // Gets elements by class name
+pro.tag('tag-name'); // Gets elements by tag name
+document.on('some-event', fn); // Adds an event listener
+document.no('some-event', fn); // Removes an event listener
 
-element.proId('sub-element-id'); // gets sub element by id
-element.proClass('class-name'); // gets sub elements by class name
-element.proSelector('css-selector'); // gets elements by specified selector
-element.proTag('tag-name'); // gets sub elements by tag name
-
-pro.id('element-id'); // gets element by id
-pro.class('class-name'); // gets elements by class name
-pro.tag('tag-name'); // gets elements by tag name
-document.on('some-event', fn); // adds an event listener
-document.no('some-event', fn); // removes an event listener
+element.proId('child-element-id'); // Gets child element by id
+element.proClass('class-name'); // Gets child elements by class name
+element.proSelector('css-selector'); // Gets child elements by specified selector
+element.proTag('tag-name'); // Gets child elements by tag name
+element.to('attribute', value); // Adds attribute with optional value, e.g. element.to('hidden')
+element.out('attribute'); //Removes attribute from element, e.g. element.out('hidden')
+element.is('attribute'); // Checks that element has attribute
+element.toClass('class-name'); // Adds css-class to element
+element.outClass('class-name'); // Removes css-class from element
+element.on('event', listener); // Adds an event listener
+element.no('event', listener); // Removes an event listener
 ```
 ---
 
 ### &lt;script src="pro.core.js">&lt;/script>
  - provides **sync** event-based programming model with on/once/out interface.
- `pro.core` constructor-function can be used to create new ProJS-like components:
+Use `pro.core` constructor-function to create new ProJS-like components:
 
- ```javascript
- var module = new pro.core();
+```javascript
+var unit = new pro.core();
 
- /* Subscribe on event.
-    By default listener will be executed immediately for the last event's data if event was triggered.
-    Pass the third parameter 'skipLast' = true to override this. */ 
- module.on('event',
-           function (eventData) {
-              console.log('Event was triggered: ' + eventData);
-           }
-           /*, true */);
+/* Subscribe on event. If event was triggered, listener is executed
+immediately. To override this pass the third 'skipLast' argument as true. */ 
+unit.on('event', function (eventData) {
+               console.log('Event was triggered: ' + eventData);
+             }/*, true */);
 
-//trigger event. Pass optional callback as the third argument to be executed after all 'event'-listeners
- module.out('event', 23 /*, function () { console.log('Well done!'); } */);
- // Console output:
- //    Event was triggered: 23
- //    Well done!
+// Trigger event. Optional the third callback can be executed after all listeners
+unit.out('event', 23 /*, function () { console.log('Well done!'); } */);
+//  Event was triggered: 23
+//  Well done!
+
+// One-time listener
+unit.once('event', function (eventData) { } /*, true */);
+```
  
- //One-time listener
- module.once('event', function (eventData) { } /*, true */);
- ```
- 
- `pro.core` object allows to register global error handler for all listeners added via `on` and `once` as well as for `out` callbacks:
+Use `pro.core` object to register global error handler for all listeners added via `on` / `once` as well as for `out` callbacks:
 ```javascript
 pro.core.error(function (err) { console.log(err); });
 ```
-
 ---
 
 ### &lt;script src="pro.unit.js">&lt;/script> (depends on **pro.core.js**)
- - introduces unit with *states model*:
+ - introduces unit with *states* concept:
 
 ```javascript
- var app = new pro.Unit(); // Initializes a new application unit
+var app = new pro.Unit(); // Initializes a new application unit
 ```
 
 ```javascript
- app.unit('NewsStore') // Defines 'NewsStore' unit inside of the application unit
-    .out(function () { // Initialization function. 'this' refers to the unit itself
-       var me = this;
-       // Below is a sample of subscription on some event
-       this.on('some-event', function (eventModel) {
-         // Just imagine that 'retrieveNews' function somewhere exists
-	 var newsModel = retrieveNews(eventModel);
-	 // Notify all subscribers that news are loaded
-         me.out('newsLoaded', newsModel);
-         // me.newsLoaded(newsModel); - shortcut for the line above.
-         // Available only if some listener is already exist!!! 
-       });
-       ...
-       // Or notify about smth else
-       this.out('any-event', withOptionalEventDataObject);
-    });
-```
-
-```javascript
-app.unit('NewsList') // Defines another 'NewsList' unit
-   .on('NewsStore') // Optional method, points to unit's dependencies
-   .out(function (newsStore) {
+app.unit('NewsStore') // Defines 'NewsStore' unit inside of the application
+   .out(function () { // Initialization function. 'this' refers to the unit itself
      var me = this;
-     
-     me.state('no-news') // Defines an optional state
-             .to(function () { // Will be executed on entering into this state
-                proId('blank-text').out('hidden'); // Removes 'hidden' attribute from blank text
-             })
-             .out(function () { // Optinal callback to be executed on leaving this state
-                proId('blank-text').to('hidden'); // Adds 'hidden' attribute to blank text element
-             })
-          .state('news')
-              .to(function (news) {
-                 ...
-              });
-       
-       me.to('no-news'); // Go to initial state if you wish...
-       
-       newsStore.on('newsLoaded', function (newsList) { // Subscribes on fresh news
-          if (newsList && newsList.length > 0) {
-            me.to('news', newsList);
-          }
-          else
-          {
-            me.out('empty'); // Notify 'NewsList' unit subscribers that news control is empty
-          }
-       });
-    }
+
+     this.on('some-event', function (eventModel) {
+       var newsModel = retrieveNews(eventModel);
+       me.out('newsLoaded', newsModel); // Notify all listeners
+       //me.newsLoaded(newsModel);
+       // Syntax sugar for the line above in case some listener exists
+     });
+     ...
+     // Or notify about smth else
+     this.out('any-event', eventDataIsOptional);
+   });
+```
+```javascript
+app.unit('NewsList') // Defines 'NewsList' unit
+  .on('NewsStore') // Optional method, lists unit's dependencies
+  .out(function (newsStore) {
+    var me = this;
+    
+    me.state('no-news') // Defines optional state
+        .to(function () { // Execute on entering into the state
+           proId('blank-text').out('hidden'); // Removes 'hidden' attribute
+        })
+        .out(function () { // Optinal, execute on leaving the state
+           proId('blank-text').to('hidden'); // Adds 'hidden' attribute
+        })
+      .state('news')
+        .to(function (news) { ... });
+      
+    me.to('no-news'); // Go to initial state, if you wish...
+      
+    newsStore.on('newsLoaded', function (newsList) {
+       if (newsList && newsList.length > 0) {
+         me.to('news', newsList);
+       } else {
+         me.out('empty'); // Notify 'NewsList' unit subscribers that news list is empty
+       }
+    });
+  }
 ```
 
-> You can define hierarchical states (separated with periods like 'news.expanded'). See sources for more details
+> You can define hierarchical states (separated with periods, e.g. 'news.expanded'). See sources for more details.
 ---
 
 ### &lt;script src="pro.http.js">&lt;/script> (depends on **pro.core.js**)
- - a sweet wrapper over *XMLHttpRequest* object. Available via `pro.http` object:
-
-
+ - a sweet wrapper over *XMLHttpRequest* object available via `pro.http` object:
+ 
 ```javascript
-     // Below is how 'NewsStore' unit's code can be enhanced
-     this.on('some-event', function (eventModel) {
-	pro.http.to('/api/news') // Defines request to the endpoint
-	      .on(200, function (response) { 
-			  newsStore.out('newsLoaded', response);
-		       }) 
-	      .on(204, function () { 
-			  newsStore.out('newsLoaded', null);
-		       }) // Just subscribe on any status code you need
-	      .on('success|fail|end', callback) // Well-known events
-	      .header('Content-Type', 'application/json') // Any header is welcome
-	      .get(); // Sends 'GET' request
-     });
+this.on('some-event', function (eventModel) {
+  pro.http.to('/api/news') // Defines request to the endpoint
+     .on(200, function (response) { // On HTTP 200 status code
+                newsStore.out('newsLoaded', response);
+              }) 
+     .on(204, function () { 
+                newsStore.out('newsLoaded', null);
+              }) // Subscribe on any HTTP status
+     .on('success|fail|end', callback) // Three well-known events
+     .header('Content-Type', 'application/json') // Any header is welcome
+     .get(); // Sends 'GET' request
+}); // This is how 'NewsStore' unit's code can be enhanced
 ```
 
 Send other types of requests:
 ```javascript
-	pro.http.to('api/news')
-		.post({ title: 'ProJS framework released!', text: 'Good news for all of you!' })
-		//.put({ text: 'Frontend future is elegant with ProJS!' })
-		//.delete({ text: 'Angular + React + VueJS' })
-		//.out('%HTTP_VERB%', data); // - generic request
+pro.http.to('api/news')
+   .post({ title: 'ProJS framework released!',
+           text: 'Good news for all of you!' })
+   //.put({ text: 'Frontend future is elegant with ProJS!' })
+   //.delete({ text: 'Angular + React + VueJS' })
+   //.out('%HTTP_VERB%', data); // - Generic request
 ```
 
 There are special `pro.http` object events: **'open'**, **'end'**, any **%status code%** (e.g. 403, 500) - to add some HTTP-interceptor:
 
-
 ```javascript
 pro.http.on('open', function (request) {
-  request.header('Authorization', 'Bearer ' + token); // Adds bearer token on each request
+  request.header('Authorization', 'Bearer ' + token); // Adds auth token on each request
 });
 
 pro.http.on(401, function () {
-  loginUnit.to('open');
+  loginUnit.open(); // Sends 'open'-event to loginUnit
 });
 ```
 ---
@@ -184,18 +164,18 @@ pro.http.on(401, function () {
  - performs in depth DOM-tree traversal for DOM preprocessing:
  
  ```javascript
- //Initializes tree traversal
+ // Initialize tree traversal
  pro.tree.depth(document.children);
 
- //In case you need to add some custom logic
+ // In case you need to add some custom logic
  pro.tree.on('node', function (element) {
- 	 //Your logic here;
+    // Your logic here;
  });
  ```
 ---
 
 ### &lt;script src="pro.load.js">&lt;/script> (depends on **pro.http.js** and **pro.tree.js**)
-- subscribes on DOM-tree traversal and loads HTML markup content for elements with **'pro-load'** tags:
+- subscribes on DOM-tree traversal and loads HTML content for elements with **'pro-load'** tags:
 
 `<div pro-load="news-component.html"></div>`
 
@@ -204,28 +184,27 @@ Content for the element above will be downloaded from the specified url. In case
 ```javascript
 pro.load.on('news-component.html', function (newsContainerDiv) {
   // Execute after markup loading
-
-  parentUnit.unit('NewsList')
-   .on('NewsStore')
-   .out(function (newsStore) { ... });
+  app.unit('NewsList')
+     .on('NewsStore')
+     .out(function (newsStore) { ... });
 });
 ```
 
-To handle situations with html missing, subscribe on `pro.load` 404 status code:
+To handle situations with html missing, subscribe on `pro.load` 404 event:
 
 ```javascript
 pro.load.on(404, function (elementInfo) {
-	//console.log(elementInfo.url + ' was not loaded.');
-	//elementInfo.element.innerHTML = 'Content is missing.';
+   // console.log(elementInfo.url + ' was not loaded');
+   // elementInfo.element.innerHTML = 'Content is missing';
 });
 ```
 
-Subscribe on success loading event to manipulate with DOM-element:
+Subscribe on success loading event to manipulate with loaded markup:
 
 ```javascript
 pro.load.on(200, function (elementInfo) {
-	//elementInfo.element
-	//elementInfo.url
+    // elementInfo.element
+    // elementInfo.url
 });
 ```
 ---
@@ -234,33 +213,28 @@ pro.load.on(200, function (elementInfo) {
 
 - introduces observable model:
 
-``` javascript
+```javascript
 var model = { topic: 'Sample', text: 'Observable model' },
-    article = new pro.data(model);// or just empty observable: 'new pro.data();'
+    article = new pro.data(model); // Or empty observable: 'new pro.data();'
 
-article();// returns model object: { topic: 'Sample', text: 'Observable model' }
-article.topic();// returns topic string: 'Sample'
+article(); // Returns model object: { topic: ..., text: ... }
+article.topic(); // Returns topic string: 'Sample'
 
 article.on(function (model) {
-	// all article's model was changed
+    // On the whole article's model change
 });
-article({ topic: 'New article', text: '' });// triggers the callback above
-
 article.topic.on(function (topic) {
-	// only topic was changed
-});//Subscribe on some property change
-article.topic('New topic');// triggers the callback above
+    // On topic change
+});
 
+article.topic('New topic'); // Triggers the last listener only
+article({ topic: 'New article', text: '' }); // Triggers two listeners
 ```
-
 ---
 
 ### &lt;script src="pro.time.js">&lt;/script>
 
-- contains time-related helpers. Available via `pro.time` object.
-
+- contains time-related helpers available via `pro.time` object.
 ---
 
-## License
-
-[MIT](http://opensource.org/licenses/MIT)
+## [MIT license](http://opensource.org/licenses/MIT)
