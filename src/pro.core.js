@@ -3,6 +3,11 @@
 (function (pro) {
     'use strict';
 
+    var globalCore = new Core();
+    Core.error = function (callback) {
+        globalCore.on('error', callback);
+    };
+
     function Core() {
         this.actionsMap = {};
     }
@@ -21,7 +26,9 @@
         if (actionData) {
             actionData.listeners.push(listener);
             if (actionData.containsEventValue && !skipLast) {
-                listener(actionData.lastEventValue);
+                try {
+                    listener(actionData.lastEventValue);
+                } catch (err) { outError(err); }
             }
         } else {
             this.setActionData(action, { listeners: [listener], onceListeners: [] });
@@ -36,7 +43,9 @@
 
         if (actionData) {
             if (actionData.containsEventValue && !skipLast) {
-                callback(actionData.lastEventValue);
+                try {
+                    callback(actionData.lastEventValue);
+                } catch (err) { outError(err); }
             } else {
                 actionData.onceListeners.push(callback);
             }
@@ -54,10 +63,14 @@
         if (eventData) {
             eventData.listeners = eventData.listeners || [];
             eventData.listeners.forEach(function (listener) {
-                listener(value, callback);
+                try {
+                    listener(value, callback);
+                } catch (err) { outError(err); }
             });
             eventData.onceListeners.forEach(function (listener) {
-                listener(value, callback);
+                try {
+                    listener(value, callback);
+                } catch (err) { outError(err); }
             });
             eventData.onceListeners = [];
             eventData.lastEventValue = value;
@@ -66,6 +79,8 @@
             this.setActionData(action, { lastEventValue: value, listeners: [], onceListeners: [], containsEventValue: true });
         }
     };
+
+    function outError(err) { globalCore.out('error', err); }
 
     pro.core = Core;
 })(pro);

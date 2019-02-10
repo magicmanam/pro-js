@@ -8,7 +8,7 @@
     var core = new pro.core();
     pro.load = core;
 
-    pro.tree.on('leaf', function (leaf) {
+    pro.tree.on('node', function (leaf) {
         if (leaf.is('pro-load')) {
                 let url = leaf.getAttribute('pro-load');
 

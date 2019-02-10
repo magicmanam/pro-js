@@ -4,15 +4,15 @@ Simple and lightweight JS-framework for decomposing app into code- and html mark
 The framework is made of several `pro.*.js` files with total size *<4KB gzipped and <18KB uncompressed*.
 
 ```html
-    <script src="pro.js"></script>
-    <script src="pro.core.js"></script>
-    <script src="pro.data.js"></script>
+    <script src="pro.js"></script><!-- DOM-methods aliases -->
+    <script src="pro.core.js"></script><!-- Framework's heart... -->
+    <script src="pro.unit.js"></script><!-- Extends pro.core with states -->
+    <script src="pro.http.js"></script><!-- Sweet HTTP client -->
+    <script src="pro.tree.js"></script><!-- DOM processing -->
+    <script src="pro.load.js"></script><!-- Dynamic markup loading -->
     <script src="pro.mvvm.js"></script>
-    <script src="pro.unit.js"></script>
-    <script src="pro.http.js"></script>
-    <script src="pro.tree.js"></script>
-    <script src="pro.load.js"></script>
-    <script src="pro.time.js"></script>
+    <script src="pro.data.js"></script><!-- Observable objects -->
+    <script src="pro.time.js"></script><!-- Time-functions -->
 ```
 
 ## Pro features per files
@@ -44,7 +44,32 @@ document.no('some-event', fn); // removes an event listener
 ---
 
 ### &lt;script src="pro.core.js">&lt;/script>
- - framework's basis which provides event-based programming model. `pro.core` constructor-function can be used to create new ProJS-like components with on/once/out interface.
+ - provides **sync** event-based programming model with on/once/out interface.
+ `pro.core` constructor-function can be used to create new ProJS-like components:
+
+ ```javascript
+ var module = new pro.core();
+
+ /* subscribe on event. By default listener will be executed immidiately for the last event's data if event was already triggered.
+To override this behavior pass the third parameter 'skipLast' = true */ 
+ module.on('event', function (eventData) {
+							console.log('Event was triggered: ' + eventData);
+						}, /* skipLast */);
+
+//trigger event. Pass optional callback as the third argument to be executed after all 'event'-listeners
+ module.out('event', 23 /*, function () { console.log('Well done!'); } */);
+ // Console output:
+ //    Event was triggered: 23
+ //    Well done!
+ 
+ //One-time listener
+ module.once('event', function (eventData) { } /*, skipLast */);
+ ```
+ 
+ `pro.core` object allows to register global error handler for all listeners added via `on` and `once` as well as for `out` callbacks:
+```javascript
+pro.core.error(function (err) { console.log(err); });
+```
 
 ---
 
@@ -152,14 +177,14 @@ pro.http.on(401, function () {
 ---
 
 ### &lt;script src="pro.tree.js">&lt;/script> (depends on **pro.core.js**)
- - performs DOM-tree traversal in depth to be used by other framework components:
+ - performs in depth DOM-tree traversal for DOM preprocessing:
  
  ```javascript
  //Initializes tree traversal
  pro.tree.depth(document.children);
 
  //In case you need to add some custom logic
- pro.tree.on('leaf', function (element) {
+ pro.tree.on('node', function (element) {
  	 //Your logic here;
  });
  ```
@@ -207,7 +232,7 @@ pro.load.on(200, function (elementInfo) {
 
 ``` javascript
 var model = { topic: 'Sample', text: 'Observable model' },
-    article = new pro.data(model);// or just 'new pro.data();'
+    article = new pro.data(model);// or just empty observable: 'new pro.data();'
 
 article();// returns model object: { topic: 'Sample', text: 'Observable model' }
 article.topic();// returns topic string: 'Sample'

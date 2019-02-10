@@ -14,7 +14,7 @@
 
         while (i < leaves.length) {
             let leaf = leaves[i++];
-            core.leaf(leaf);
+            core.node(leaf);
             inDepth(leaf.children);
         }
     }
