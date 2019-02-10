@@ -1,7 +1,5 @@
-# ProJS
-
-Simple and lightweight JS-framework for decomposing app into code- and html markup- *units* with fluent interface.
-The framework is made of several `pro.*.js` files with total size *<4KB gzipped and <18KB uncompressed*.
+> Simple and lightweight JS-framework for decomposing app into code- and html markup- *units* with fluent interface.
+> The framework is made of several `pro.*.js` files with total size *<4KB gzipped and <18KB uncompressed*.
 
 ```html
     <script src="pro.js"></script><!-- DOM-methods aliases -->
