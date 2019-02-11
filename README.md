@@ -59,7 +59,7 @@ unit.out('event', 23 /*, function () { console.log('Well done!'); } */);
 unit.once('event', function (eventData) { } /*, true */);
 ```
  
-Use `pro.core` object to register global error handler for all listeners added via `on` / `once` as well as for `out` callbacks:
+Use `pro.core` object to register global error handler for all listeners managed by ProJS:
 ```javascript
 pro.core.error(function (err) { console.log(err); });
 ```
