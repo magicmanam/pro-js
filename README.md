@@ -121,7 +121,7 @@ app.unit('NewsList') // Defines 'NewsList' unit
   }
 ```
 
-> You can define hierarchical states (separated with periods, e.g. 'news.expanded'). See sources for more details.
+> Define hierarchical states (separated with periods, e.g. 'news.expanded'). See sources for more details.
 
 ---
 
@@ -306,18 +306,19 @@ pro.load.once('news-template.html', function (view) {
 Now you can mention this view in two ways:
 
 
-1) Imperative way via javascript code:
+1) Imperative way via JS:
 
 ```javascript
 newsList.forEach(function (newsModel) {
     pro.view.out('news-view', newsModel, function (newsNode) {
+        // Model-binded view node is passed
         proId('news-container').appendChild(newsNode);
     });
 });
 ```
 
 
-2) Declarative way via MVVM-pattern introduced in `pro.mvvm`-file below:
+2) Declarative way via MVVM-pattern introduced in `pro.mvvm.js`-file below:
 
 ---
 
@@ -326,7 +327,8 @@ newsList.forEach(function (newsModel) {
 - Model-View-ViewModel implementation. ViewModel here is an observable `pro.data` object binded to HTML-element as following:
 
 ```javascript
-var viewModel = pro.data({ newsList: [] })
+var viewModel = pro.data({ newsList: [] });
+
 pro.mvvm.to(proId('news-container'), viewModel);
 ```
 
@@ -334,7 +336,7 @@ Here is how markup looks like:
 
 ```html
 <div id="news-container">
-    <div pro="hide(newsList.length === 0)">There is no news to read.</div>
+    <div pro="hide(newsList.length === 0)">There are no news to read.</div>
     <div pro="each(newsList, view('news-view'))">
         <!-- Here will be inserted list of news view -->
     </div>
