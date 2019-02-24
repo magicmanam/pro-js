@@ -1,8 +1,4 @@
-﻿if (!pro || !pro.core) {
-    throw new Error('pro.core.js is missing');
-}
-
-(function (pro) {
+﻿(function (pro) {
     'use strict';
 
     function Unit() {

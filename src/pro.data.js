@@ -1,8 +1,4 @@
-﻿if (!pro || !pro.core) {
-    throw new Error('pro.core.js is missing');
-}
-
-(function (pro) {
+﻿(function (pro) {
     pro.data = function (data) {
         var core = new pro.core();
 
@@ -11,17 +7,30 @@
                 return data;
             } else {
                 data = rawData;
-                core.out('raw', data);//Or after all props ?
-                if (typeof data === 'object' && !(data instanceof Array)) {//array into if
-                    for (let prop in data) {
-                        if (data.hasOwnProperty(prop)) {
-                            let nested = observ[prop];
+                core.out('raw', data);
+                if (typeof data === 'object') {
+                    if (data instanceof Array) {
+                        data.forEach(ensureObservedProperty);
+                        let i = data.length;
+                        while (observ.hasOwnProperty[i]) { delete observ[i++]; }
+                    } else {
+                        for (let prop in data) if (data.hasOwnProperty(prop)) {
+                            ensureObservedProperty(data[prop], prop);
+                        }// Update all listeners which props were deleted
+                    }
 
-                            if (nested) {
-                                nested(data[prop]);
-                            } else {
-                                observ[prop] = pro.data(data[prop]);
-                            }
+                    function ensureObservedProperty(item, prop) {
+                        let nested = observ[prop];
+
+                        if (nested) {
+                            nested(item);
+                        } else {
+                            nested = pro.data(item);
+                            nested.on(function (d) {
+                                data[prop] = d;
+                                core.out('raw', data);
+                            }, true);
+                            observ[prop] = nested;
                         }
                     }
                 }

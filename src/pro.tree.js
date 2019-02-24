@@ -1,21 +1,41 @@
-﻿if (!pro || !pro.core) {
-    throw new Error('pro.core.js is missing');
-}
-
-(function (pro) {
+﻿(function (pro) {
     'use strict';
 
-    var core = new pro.core();
-    core.on('depth', inDepth);
-    pro.tree = core;
+    pro.tree = tree();
+    pro.tree.new = tree;
 
-    function inDepth(leaves) {
-        var i = 0;
+    function tree() {
+        var core = new pro.core(),
+            pending = 0;
 
-        while (i < leaves.length) {
-            let leaf = leaves[i++];
-            core.node(leaf);
-            inDepth(leaf.children);
+        core.on('depth', function (leaves) {
+            inDepth(leaves);
+
+            if (pending === 0) {
+                core.out('end');
+            } else {
+                core.on('pending', function (count) {
+                    if (count === 0) {
+                        core.out('end');
+                    }
+                });
+            }
+        });
+
+        core.on('pending', function (count) {
+            pending += count;
+        });
+
+        function inDepth(leaves) {
+            var i = 0;
+
+            while (i < leaves.length) {
+                let leaf = leaves[i++];
+                core.node(leaf);
+                inDepth(leaf.children);
+            }
         }
+
+        return core;
     }
 })(pro);

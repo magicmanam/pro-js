@@ -1,34 +1,34 @@
-﻿if (!pro || !pro.http || !pro.tree) {
-    throw new Error('pro.tree.js or pro.http.js are missing');
-}
-
-(function (pro) {
+﻿(function (pro) {
     'use strict';
 
     var core = new pro.core();
     pro.load = core;
 
-    pro.tree.on('node', function (leaf) {
-        if (leaf.is('pro-load')) {
-                let url = leaf.getAttribute('pro-load');
+    loadNodeForFree(pro.tree);
 
+    function loadNodeForFree(tree) {
+        tree.on('node', function (node) {
+            if (node.is('pro-load')) {
+                let url = node.getAttribute('pro-load');
+
+                tree.pending(1);
                 pro.http
                     .to(url)
                     .on(200, function (response) {
-                        leaf.innerHTML = response;
+                        var subTree = tree.new();
+                        node.innerHTML = response;
+                        loadNodeForFree(subTree);
+                        subTree.depth(node.children);
 
-                        core.out(200, { url: url, element: leaf });
-                        core.out(url, leaf);
-
-                        pro.tree.depth(leaf.children);
-                    })
-                    .on(404, function () {
-                        core.out(404, { url: url, element: leaf });
-                    })
-                    .on('end', function () {
-                        leaf.out('pro-load');
+                        subTree.on('end', function () {
+                            node.out('pro-load');
+                            core.out(status, { url: url, element: node });
+                            core.out(url, node);
+                            tree.pending(-1);
+                        });
                     })
                     .get();
             }
         });
+    }
 })(pro);

@@ -1,15 +1,19 @@
 ```html
-<!-- Total size < 4KB gzipped or < 18KB uncompressed -->
+<!-- Total gzipped & compiled size < 2.5KB -->
+<!-- Total original & uncompressed size < 20KB -->
 <script src="pro.js"></script>     <!-- DOM-methods aliases -->
-<script src="pro.core.js"></script><!-- Framework's heart... -->
+<script src="pro.core.js"></script><!-- Framework core -->
 <script src="pro.unit.js"></script><!-- App units with states and DI -->
 <script src="pro.http.js"></script><!-- Sweet HTTP client -->
 <script src="pro.tree.js"></script><!-- DOM-tree traversal -->
 <script src="pro.load.js"></script><!-- Dynamic markup loading -->
-<script src="pro.mvvm.js"></script>
+<script src="pro.view.js"></script><!-- Model-bindable UI-unit -->
+<script src="pro.mvvm.js"></script><!-- Lightweight & simple MVVM -->
 <script src="pro.data.js"></script><!-- Observable objects -->
 <script src="pro.time.js"></script><!-- Time-functions -->
 ```
+
+> You can try some of the framework features right here in browser console (via F12).
 
 ## Framework features per files
 
@@ -34,6 +38,7 @@ element.toClass('class-name'); // Adds css-class to element
 element.outClass('class-name'); // Removes css-class from element
 element.on('event', listener); // Adds an event listener
 element.no('event', listener); // Removes an event listener
+element.toChildFree(); // Removes all childs (makes an element child free)
 ```
 ---
 
@@ -164,14 +169,24 @@ pro.http.on(401, function () {
  - performs in depth DOM-tree traversal for DOM preprocessing:
  
  ```javascript
- // Initialize tree traversal
+ // In case you have some custom logic
+ pro.tree.on('node', function (element) {
+    // Your logic with node here
+ });
+
+ pro.tree.on('end', function () {
+    // Tree was traversed and all nodes are processed..
+ });
+
+ // Initialize tree traversal for elements:
  pro.tree.depth(document.children);
 
- // In case you need to add some custom logic
- pro.tree.on('node', function (element) {
-    // Your logic here;
- });
+ // In case you need a new 'tree', create it
+ var tree = pro.tree.new();
+ // Use 'tree' variable as 'pro.tree' object above
  ```
+ > Pro-philosophy: 
+ > see in sources of `pro.load` file below how to use `pending` event for advanced scenarios.
 ---
 
 ### &lt;script src="pro.load.js">&lt;/script> (depends on **pro.http.js** and **pro.tree.js**)
@@ -179,16 +194,7 @@ pro.http.on(401, function () {
 
 `<div pro-load="news-component.html"></div>`
 
-Content for the element above will be downloaded from the specified url. In case your code unit depends on this markup, use `pro.load` object:
-
-```javascript
-pro.load.on('news-component.html', function (newsContainerDiv) {
-  // Execute after markup loading
-  app.unit('NewsList')
-     .on('NewsStore')
-     .out(function (newsStore) { ... });
-});
-```
+Content for the element above will be downloaded from the specified url. Nested 'pro-load' elements are supported, content for them will be loaded immediately.
 
 To handle situations with html missing, subscribe on `pro.load` 404 event:
 
@@ -207,28 +213,133 @@ pro.load.on(200, function (elementInfo) {
     // elementInfo.url
 });
 ```
+
+> You can subscribe on any status code in a similar way.
+
+In case your code unit depends on this markup, use `pro.load` object:
+
+```javascript
+pro.load.on('news-component.html', function (newsContainerDiv) {
+  // After loading and ALL status code listeners execution
+  app.unit('NewsList')
+     .on('NewsStore')
+     .out(function (newsStore) { ... });
+});
+```
 ---
 
 ### &lt;script src="pro.data.js">&lt;/script> (depends on **pro.core.js**)
 
-- introduces observable model:
+- introduces observable entity for JS-objects and arrays:
 
 ```javascript
 var model = { topic: 'Sample', text: 'Observable model' },
-    article = new pro.data(model); // Or empty observable: 'new pro.data();'
+    news = new pro.data(model); // Or empty observable: 'new pro.data();'
 
-article(); // Returns model object: { topic: ..., text: ... }
-article.topic(); // Returns topic string: 'Sample'
-
-article.on(function (model) {
-    // On the whole article's model change
-});
-article.topic.on(function (topic) {
+news.topic.on(function (topic) {
     // On topic change
-});
+}); // See the line below which triggers this listener
+news.topic('New topic');
 
-article.topic('New topic'); // Triggers the last listener only
-article({ topic: 'New article', text: '' }); // Triggers two listeners
+news.on(function (model) {
+    // On the whole news change
+}); // See the line below which triggers this listener
+// As well as the listener above, because topic is changed too
+news({ topic: 'New article', text: 'Text' });
+
+// Read current value:
+news.topic(); // Evaluated into 'New article'
+news(); // Evaluated into an object: { topic: 'New article', text: 'Text' }
+```
+
+- observable arrays:
+
+```javascript
+var modelArray = [model],
+    newsList = pro.data(modelArray);
+
+newsList[0].topic.on(function (topic) {
+    // On the 0-th element's topic change
+}); // See the line below which triggers this listener
+newsList[0].topic('Indexation as for ordinal array!');
+
+newsList[0].on(function (article) {
+    // On the first news change
+}); // See the line below which triggers this listener
+// As well as the listener above, because topic is changed too
+newsList[0]({ topic: 'Whole article changed', text: 'Text' });
+
+newsList.on(function (list) {
+    // On news list change
+}); // See the line below which triggers this listener
+// As well as two listeners above
+newsList([]); // * Here I have a bug - only the last listener was executed
+
+// Read current value:
+newsList(); // Evaluated into an empty array
+```
+
+> Initial object is changed with observable as well.
+---
+
+### &lt;script src="pro.view.js">&lt;/script>
+
+- contains time-related helpers available via `pro.time` object.
+
+```javascript
+pro.load.once('news-template.html', function (view) {
+    'use strict';
+    // Define view named 'news-view'
+    pro.view.name('news-view')(function () {
+            return view.cloneNode(true);
+        })
+        .on(function (model) { // Executed on model binding
+            this.proClass('topic')[0].textContent = model.topic;
+            this.proClass('text')[0].textContent = model.text;
+        });
+});
+```
+
+Now you can mention this view in two ways:
+1) Imperative way via javascript code:
+
+```javascript
+newsList.forEach(function (newsModel) {
+    pro.view.out('news-view', newsModel, function (newsNode) {
+        proId('news-container').appendChild(newsNode);
+    });
+});
+```
+
+2) Declarative way via MVVM-pattern with help of `pro.mvvm`-file below:
+---
+
+### &lt;script src="pro.mvvm.js">&lt;/script>
+
+- Model-View-ViewModel implementation. ViewModel here is an observable `pro.data` object which is binded to HTML-element as following:
+
+```javascript
+var viewModel = pro.data({ newsList: [] })
+pro.mvvm.to(proId('news-container'), viewModel);
+```
+
+```html
+<div id="news-container">
+    <div pro="hide(newsList.length === 0)">There is no news to read.</div>
+    <div pro="each(newsList, view('news-view'))">
+        <!-- Here will be inserted list of news view -->
+    </div>
+    <div pro="show(newsList.length !== 0)">Happy reading! ;)</div>
+</div>
+```
+
+The markup above contains elements with `pro`-attribute which contains some predefined list of hacks: `show`, `hide`, `each`, `view` - DOM-manipulation with element.
+Value of this attribute is reevaluated on model change and updates markup.
+Extension point for custom hacks will be added later.
+
+```javascript
+viewModel.newsList([{ topic: '...', text: '...' }]);
+// The html above will be updated
 ```
 ---
 
@@ -238,3 +349,14 @@ article({ topic: 'New article', text: '' }); // Triggers two listeners
 ---
 
 ## [MIT license](http://opensource.org/licenses/MIT)
+
+<script src="src/pro.js"></script>
+<script src="src/pro.core.js"></script>
+<script src="src/pro.unit.js"></script>
+<script src="src/pro.http.js"></script>
+<script src="src/pro.tree.js"></script>
+<script src="src/pro.load.js"></script>
+<script src="src/pro.view.js"></script>
+<script src="src/pro.mvvm.js"></script>
+<script src="src/pro.data.js"></script>
+<script src="src/pro.time.js"></script>

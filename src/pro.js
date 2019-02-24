@@ -101,6 +101,10 @@ function pro(document, window) {
         elementProto.proId = function (id) {
             return this.proSelector('#' + id);
         };
+
+        elementProto.toChildFree = function () {
+            while (this.firstChild) { this.removeChild(this.firstChild); }
+        }
     }
 
     return pro;

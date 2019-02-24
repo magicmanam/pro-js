@@ -1,6 +1,4 @@
-﻿pro = pro || {};
-
-(function (pro) {
+﻿(function (pro) {
     pro.time = {};
 
     pro.time.Countdown = function ProTimer(secondsToCount, onTick) {
