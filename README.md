@@ -7,13 +7,13 @@
 <script src="pro.http.js"></script><!-- Sweet HTTP client -->
 <script src="pro.tree.js"></script><!-- DOM-tree traversal -->
 <script src="pro.load.js"></script><!-- Dynamic markup loading -->
+<script src="pro.data.js"></script><!-- Observable objects -->
 <script src="pro.view.js"></script><!-- Model-bindable UI-unit -->
 <script src="pro.mvvm.js"></script><!-- Lightweight & simple MVVM -->
-<script src="pro.data.js"></script><!-- Observable objects -->
 <script src="pro.time.js"></script><!-- Time-functions -->
 ```
 
-> Press F12 and try some of the framework features during the reading!
+> Press F12 and try framework features during the reading!
 
 ## Features per files
 
@@ -349,7 +349,7 @@ Markup is reevaluated on every model change. Extension point for custom hacks wi
 
 ```javascript
 viewModel.newsList([{ topic: '...', text: '...' }]);
-// The html above will be updated
+// The html above will be immediately updated
 ```
 ---
 
@@ -367,7 +367,7 @@ viewModel.newsList([{ topic: '...', text: '...' }]);
 <script src="src/pro.http.js"></script>
 <script src="src/pro.tree.js"></script>
 <script src="src/pro.load.js"></script>
+<script src="src/pro.data.js"></script>
 <script src="src/pro.view.js"></script>
 <script src="src/pro.mvvm.js"></script>
-<script src="src/pro.data.js"></script>
 <script src="src/pro.time.js"></script>
