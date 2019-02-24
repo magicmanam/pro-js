@@ -13,9 +13,9 @@
 <script src="pro.time.js"></script><!-- Time-functions -->
 ```
 
-> You can try some of the framework features right here in browser console (via F12).
+> Press F12 and try some of the framework features during the reading!
 
-## Framework features per files
+## Features per files
 
 ### &lt;script src="pro.js">&lt;/script>
  - defines short aliases for popular DOM-methods:
@@ -70,7 +70,7 @@ pro.core.error(function (err) { console.log(err); });
 ```
 ---
 
-### &lt;script src="pro.unit.js">&lt;/script> (depends on **pro.core.js**)
+### &lt;script src="pro.unit.js">&lt;/script>
  - introduces unit with *states* concept:
 
 ```javascript
@@ -122,9 +122,10 @@ app.unit('NewsList') // Defines 'NewsList' unit
 ```
 
 > You can define hierarchical states (separated with periods, e.g. 'news.expanded'). See sources for more details.
+
 ---
 
-### &lt;script src="pro.http.js">&lt;/script> (depends on **pro.core.js**)
+### &lt;script src="pro.http.js">&lt;/script>
  - a sweet wrapper over *XMLHttpRequest* object available via `pro.http` object:
  
 ```javascript
@@ -165,7 +166,7 @@ pro.http.on(401, function () {
 ```
 ---
 
-### &lt;script src="pro.tree.js">&lt;/script> (depends on **pro.core.js**)
+### &lt;script src="pro.tree.js">&lt;/script>
  - performs in depth DOM-tree traversal for DOM preprocessing:
  
  ```javascript
@@ -185,11 +186,12 @@ pro.http.on(401, function () {
  var tree = pro.tree.new();
  // Use 'tree' variable as 'pro.tree' object above
  ```
- > Pro-philosophy: 
- > see in sources of `pro.load` file below how to use `pending` event for advanced scenarios.
+
+ > Pro-philosophy: see in sources of `pro.load` file below how to use `pending` event for advanced scenarios.
+
 ---
 
-### &lt;script src="pro.load.js">&lt;/script> (depends on **pro.http.js** and **pro.tree.js**)
+### &lt;script src="pro.load.js">&lt;/script>
 - subscribes on DOM-tree traversal and loads HTML content for elements with **'pro-load'** tags:
 
 `<div pro-load="news-component.html"></div>`
@@ -228,7 +230,7 @@ pro.load.on('news-component.html', function (newsContainerDiv) {
 ```
 ---
 
-### &lt;script src="pro.data.js">&lt;/script> (depends on **pro.core.js**)
+### &lt;script src="pro.data.js">&lt;/script>
 
 - introduces observable entity for JS-objects and arrays:
 
@@ -280,11 +282,12 @@ newsList(); // Evaluated into an empty array
 ```
 
 > Initial object is changed with observable as well.
+
 ---
 
 ### &lt;script src="pro.view.js">&lt;/script>
 
-- contains time-related helpers available via `pro.time` object.
+- Introduces UI-markup which can be binded to model:
 
 ```javascript
 pro.load.once('news-template.html', function (view) {
@@ -301,6 +304,8 @@ pro.load.once('news-template.html', function (view) {
 ```
 
 Now you can mention this view in two ways:
+
+
 1) Imperative way via javascript code:
 
 ```javascript
@@ -311,17 +316,21 @@ newsList.forEach(function (newsModel) {
 });
 ```
 
-2) Declarative way via MVVM-pattern with help of `pro.mvvm`-file below:
+
+2) Declarative way via MVVM-pattern introduced in `pro.mvvm`-file below:
+
 ---
 
 ### &lt;script src="pro.mvvm.js">&lt;/script>
 
-- Model-View-ViewModel implementation. ViewModel here is an observable `pro.data` object which is binded to HTML-element as following:
+- Model-View-ViewModel implementation. ViewModel here is an observable `pro.data` object binded to HTML-element as following:
 
 ```javascript
 var viewModel = pro.data({ newsList: [] })
 pro.mvvm.to(proId('news-container'), viewModel);
 ```
+
+Here is how markup looks like:
 
 ```html
 <div id="news-container">
@@ -329,13 +338,12 @@ pro.mvvm.to(proId('news-container'), viewModel);
     <div pro="each(newsList, view('news-view'))">
         <!-- Here will be inserted list of news view -->
     </div>
-    <div pro="show(newsList.length !== 0)">Happy reading! ;)</div>
+    <div pro="show(newsList.length !== 0)">Happy reading!</div>
 </div>
 ```
 
-The markup above contains elements with `pro`-attribute which contains some predefined list of hacks: `show`, `hide`, `each`, `view` - DOM-manipulation with element.
-Value of this attribute is reevaluated on model change and updates markup.
-Extension point for custom hacks will be added later.
+The markup above contains elements with `pro`-attribute which contains valid JS-expression with predefined list of hacks: `show`, `hide`, `each`, `view` - DOM-manipulation with element.
+Markup is reevaluated on every model change. Extension point for custom hacks will be added later.
 
 ```javascript
 viewModel.newsList([{ topic: '...', text: '...' }]);
@@ -346,6 +354,7 @@ viewModel.newsList([{ topic: '...', text: '...' }]);
 ### &lt;script src="pro.time.js">&lt;/script>
 
 - contains time-related helpers available via `pro.time` object.
+
 ---
 
 ## [MIT license](http://opensource.org/licenses/MIT)
