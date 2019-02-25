@@ -187,7 +187,7 @@ pro.http.on(401, function () {
  // Use 'tree' variable as 'pro.tree' object above
  ```
 
- > Pro-philosophy: see in sources of `pro.load` file below how to use `pending` event for advanced scenarios.
+ > Pro-philosophy: see in sources of `pro.load.js` file below how to use `pending` event for advanced scenarios.
 
 ---
 
@@ -196,7 +196,7 @@ pro.http.on(401, function () {
 
 `<div pro-load="news-component.html"></div>`
 
-Content for the element above will be downloaded from the specified url. Nested 'pro-load' elements are supported, content for them will be loaded immediately.
+Content for the element above will be downloaded from the specified url. Nested 'pro-load'-elements are supported, content for them will be loaded immediately.
 
 To handle situations with html missing, subscribe on `pro.load` 404 event:
 
@@ -232,7 +232,7 @@ pro.load.on('news-component.html', function (newsContainerDiv) {
 
 ### &lt;script src="pro.data.js">&lt;/script>
 
-- introduces observable entity for JS-objects and arrays:
+- introduces observable wrapper over JS-objects and arrays:
 
 ```javascript
 var model = { topic: 'Sample', text: 'Observable model' },
@@ -250,8 +250,8 @@ news.on(function (model) {
 news({ topic: 'New article', text: 'Text' });
 
 // Read current value:
-news.topic(); // Evaluated into 'New article'
-news(); // Evaluated into an object: { topic: 'New article', text: 'Text' }
+var topic = news.topic(); // Evaluated into 'New article'
+var value = news(); // Evaluated into an object: { topic: 'New article', text: 'Text' }
 ```
 
 - observable arrays:
@@ -278,7 +278,7 @@ newsList.on(function (list) {
 newsList([]); // * Here I have a bug - only the last listener was executed
 
 // Read current value:
-newsList(); // Evaluated into an empty array
+var value = newsList(); // Evaluated into an empty array
 ```
 
 > Initial object is changed with observable as well.
@@ -340,11 +340,11 @@ Here is how markup looks like:
     <div pro="each(newsList, view('news-view'))">
         <!-- Here will be inserted list of news view -->
     </div>
-    <div pro="show(newsList.length !== 0)">Happy reading!</div>
+    <div pro="show(newsList.length > 0)">Happy reading!</div>
 </div>
 ```
 
-The markup above contains elements with `pro`-attribute which contains valid JS-expression with predefined list of hacks: `show`, `hide`, `each`, `view` - DOM-manipulation with element.
+`pro`-attributes in markup contain valid JS-expressions with predefined list of hacks: `show`, `hide`, `each`, `view` - for DOM-manipulation with element.
 Markup is reevaluated on every model change. Extension point for custom hacks will be added later.
 
 ```javascript
