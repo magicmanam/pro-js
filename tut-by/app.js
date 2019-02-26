@@ -68,11 +68,15 @@ app.unit('Toolbar')
             });
 
         function loadSomeNews() {
-            newsStore.out('load-news', function () { me.to('news'); });
+            newsStore.out('load-news', null, function () {
+                me.to('news');
+            });
         }
 
         function loadNoNews() {
-            newsStore.out('load-no-news', function () { me.to('no-news'); });
+            newsStore.out('load-no-news', null, function () {
+                me.to('no-news');
+            });
         }
 
         this.to('no-news');
