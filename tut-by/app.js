@@ -47,16 +47,16 @@ app.unit('Toolbar')
         var me = this;
 
         this.state('no-news')
-                .to(function (){
-                    pro.id('some-news-link')
-                        .on('click', loadSomeNews)
-                        .to('href', 'javascript:void(0)');
+            .to(function () {
+                pro.id('some-news-link')
+                    .on('click', loadSomeNews)
+                    .to('href', 'javascript:void(0)');
 
-                    pro.id('no-news-link')
-                        .no(loadNoNews)
-                        .out('href');
-                })
-            .state('news')
+                pro.id('no-news-link')
+                    .no(loadNoNews)
+                    .out('href');
+            });
+        this.state('news')
                 .to(function () {
                     pro.id('some-news-link')
                         .no('click', loadSomeNews)
@@ -66,6 +66,14 @@ app.unit('Toolbar')
                         .on(loadNoNews)
                         .to('href', 'javascript:void(0)');
             });
+
+        function loadSomeNews() {
+            newsStore.out('load-news');
+        }
+
+        function loadNoNews() {
+            newsStore.out('load-no-news');
+        }
 
         this.to('no-news');
     });
