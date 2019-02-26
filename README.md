@@ -287,7 +287,7 @@ var value = newsList(); // Evaluated into an empty array
 
 ### &lt;script src="pro.view.js">&lt;/script>
 
-- Introduces UI-markup which can be binded to model:
+- Introduces UI-view which can be binded to model. Sample with markup loaded via `pro-load`:
 
 ```javascript
 pro.load.once('news-template.html', function (view) {
@@ -295,12 +295,28 @@ pro.load.once('news-template.html', function (view) {
     // Define view named 'news-view'
     pro.view.name('news-view')(function () {
             return view.cloneNode(true);
-        })
+        }) // It was markup-factory function
         .on(function (model) { // Executed on model binding
+            this.out('hidden');
             this.proClass('topic')[0].textContent = model.topic;
             this.proClass('text')[0].textContent = model.text;
         });
 });
+```
+
+Somewhere in body:
+
+```html
+    ...
+    <article pro-load="news-template.html" hidden></article>
+</body>
+```
+
+`news-template.html` returns markup:
+
+```html
+<h2 class="topic"></h2>
+<p class="text"></p>
 ```
 
 Now you can mention this view in two ways:
