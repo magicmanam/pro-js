@@ -81,9 +81,9 @@ app.unit('NewsStore') // Defines 'NewsStore' unit inside of the application
    .out(function () { // Initialization function. 'this' refers to the unit itself
      var me = this;
 
-     this.on('some-event', function (eventModel) {
+     this.on('load-news', function (eventModel) {
        var newsModel = retrieveNews(eventModel);
-       me.out('newsLoaded', newsModel); // Notify all listeners
+       me.out('news-loaded', newsModel); // Notify all listeners
        //me.newsLoaded(newsModel);
        // Syntax sugar for the line above in case some listener exists
      });
@@ -110,7 +110,7 @@ app.unit('NewsList') // Defines 'NewsList' unit
       
     me.to('no-news'); // Go to initial state, if you wish...
       
-    newsStore.on('newsLoaded', function (newsList) {
+    newsStore.on('news-loaded', function (newsList) {
        if (newsList && newsList.length > 0) {
          me.to('news', newsList);
        } else {
@@ -128,13 +128,13 @@ app.unit('NewsList') // Defines 'NewsList' unit
  - a sweet wrapper over *XMLHttpRequest* object available via `pro.http` object:
  
 ```javascript
-this.on('some-event', function (eventModel) {
+this.on('load-news', function (eventModel) {
   pro.http.to('/api/news') // Defines request to the endpoint
      .on(200, function (response) { // On HTTP 200 status code
-                newsStore.out('newsLoaded', response);
+                newsStore.out('news-loaded', response);
               }) 
      .on(204, function () { 
-                newsStore.out('newsLoaded', null);
+                newsStore.out('news-loaded', null);
               }) // Subscribe on any HTTP status
      .on('success|fail|end', callback) // Three well-known events
      .header('Content-Type', 'application/json') // Any header is welcome

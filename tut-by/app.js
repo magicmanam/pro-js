@@ -6,13 +6,13 @@ app.unit('NewsStore') // Defines 'NewsStore' unit inside of the application
     .out(function () { // Initialization function. 'this' refers to the unit itself
         var me = this;
 
-        this.on('some-event', function (eventModel) {
+        this.on('load-news', function (eventModel) {
             pro.http.to('api/news') // Defines request to the endpoint
-                .on(200, function (response) { // On HTTP 200 status code
-                    me.out('newsLoaded', response);
-                })
+                .on(200, pro.JSON(function (response) { // On HTTP 200 status code
+                    me.out('news-loaded', response);
+                }))
                 .on(204, function () {
-                    me.out('newsLoaded', null);
+                    me.out('news-loaded', null);
                 }) // Subscribe on any HTTP status
                 //.on('success|fail|end', callback) // Three well-known events
                 .header('Content-Type', 'application/json') // Any header is welcome
@@ -29,11 +29,11 @@ pro.load.on('news-component.html', function (newsContainer) {
 
             pro.mvvm.to(newsContainer, viewModel);
 
-            newsStore.on('newsLoaded', function (data) {
+            newsStore.on('news-loaded', function (data) {
                 viewModel.newsList(data);
             });
 
-            newsStore.out('some-event');
+            newsStore.out('load-news');
         });
 });
 
