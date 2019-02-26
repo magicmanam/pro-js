@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "topic": "Pro JS framework released!",
+    "text": "Good news for all of you!"
+  },
+  {
+    "topic": "What about the future?",
+    "text": "Frontend future is elegant with ProJS!"
+  }
+]

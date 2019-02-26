@@ -11,12 +11,18 @@ app.unit('NewsStore') // Defines 'NewsStore' unit inside of the application
                 .on(200, pro.JSON(function (response) { // On HTTP 200 status code
                     me.out('news-loaded', response);
                 }))
-                .on(204, function () {
-                    me.out('news-loaded', null);
-                }) // Subscribe on any HTTP status
                 //.on('success|fail|end', callback) // Three well-known events
                 .header('Content-Type', 'application/json') // Any header is welcome
                 .get(); // Sends 'GET' request
+        });
+
+        this.on('load-no-news', function (eventModel) {
+            pro.http.to('api/no-news') // Defines request to the endpoint
+                .on(200, pro.JSON(function (response) { // On HTTP 200 status code
+                    me.out('news-loaded', response);
+                }))
+                .header('Content-Type', 'application/json') // Any header is welcome
+                .get();
         });
     });
 
@@ -32,10 +38,20 @@ pro.load.on('news-component.html', function (newsContainer) {
             newsStore.on('news-loaded', function (data) {
                 viewModel.newsList(data);
             });
-
-            newsStore.out('load-news');
         });
 });
+
+app.unit('Toolbar')
+    .on('NewsStore')
+    .out(function (newsStore) {
+        proId('no-news-link').on('click', function () {
+                newsStore.out('load-no-news');
+            });
+
+        proId('some-news-link').on(click, function () {
+                newsStore.out('load-news');
+            });
+    });
 
 pro.load.once('news-template.html', function (view) {
     'use strict';
