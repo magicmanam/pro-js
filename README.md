@@ -1,6 +1,6 @@
 <span id="top"><span>
-<a href="#core">Core</a><a href="#unit">Unit</a><a href="#http">Http</a><a href="#tree">Tree</a><a href="#load">Load</a>
-<a href="#data">Data</a><a href="#view">View</a><a href="#mvvm">MVVM</a><a href="#time">Time</a>
+Features: <a href="#core">Core</a> <a href="#unit">Unit</a> <a href="#http">Http</a> <a href="#tree">Tree</a> <a href="#load">Load</a>
+<a href="#data">Data</a> <a href="#view">View</a> <a href="#mvvm">MVVM</a> <a href="#time">Time</a>
 
 ```html
 <!-- Total gzipped & compiled size < 2.5KB -->
@@ -16,10 +16,6 @@
 <script src="pro.mvvm.js"></script><!-- Lightweight & simple MVVM -->
 <script src="pro.time.js"></script><!-- Time-functions -->
 ```
-
-> Press F12 and try framework features during the reading!
-
-## Features per files
 
 ### &lt;script src="pro.js">&lt;/script>
  - defines short aliases for popular DOM-methods:
