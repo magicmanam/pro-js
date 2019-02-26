@@ -1,5 +1,6 @@
-<span id="home"><span>
-<a href="#pro-mvvm">MVVM</a>
+<span id="top"><span>
+<a href="#core">Core</a><a href="#unit">Unit</a><a href="#http">Http</a><a href="#tree">Tree</a><a href="#load">Load</a>
+<a href="#data">Data</a><a href="#view">View</a><a href="#mvvm">MVVM</a><a href="#time">Time</a>
 
 ```html
 <!-- Total gzipped & compiled size < 2.5KB -->
@@ -45,7 +46,7 @@ element.toChildFree(); // Removes all childs (makes an element child free)
 ```
 ---
 
-### &lt;script src="pro.core.js">&lt;/script>
+### &lt;script src="pro.core.js">&lt;/script> <span id="core"></span><a href="#top">To Top</a>
  - provides **sync** event-based programming model with on/once/out interface.
 Use `pro.core` constructor-function to create new ProJS-like components:
 
@@ -73,7 +74,7 @@ pro.core.error(function (err) { console.log(err); });
 ```
 ---
 
-### &lt;script src="pro.unit.js">&lt;/script>
+### &lt;script src="pro.unit.js">&lt;/script> <span id="unit"></span><a href="#top">To Top</a>
  - introduces unit with *states* concept:
 
 ```javascript
@@ -128,7 +129,7 @@ app.unit('NewsList') // Defines 'NewsList' unit
 
 ---
 
-### &lt;script src="pro.http.js">&lt;/script>
+### &lt;script src="pro.http.js">&lt;/script> <span id="http"></span><a href="#top">To Top</a>
  - a sweet wrapper over *XMLHttpRequest* object available via `pro.http` object:
  
 ```javascript
@@ -169,7 +170,7 @@ pro.http.on(401, function () {
 ```
 ---
 
-### &lt;script src="pro.tree.js">&lt;/script>
+### &lt;script src="pro.tree.js">&lt;/script> <span id="tree"></span><a href="#top">To Top</a>
  - performs in depth DOM-tree traversal for DOM preprocessing:
  
  ```javascript
@@ -194,7 +195,7 @@ pro.http.on(401, function () {
 
 ---
 
-### &lt;script src="pro.load.js">&lt;/script>
+### &lt;script src="pro.load.js">&lt;/script> <span id="load"></span><a href="#top">To Top</a>
 - subscribes on DOM-tree traversal and loads HTML content for elements with **'pro-load'** tags:
 
 `<div pro-load="news-component.html"></div>`
@@ -233,7 +234,7 @@ pro.load.on('news-component.html', function (newsContainerDiv) {
 ```
 ---
 
-### &lt;script src="pro.data.js">&lt;/script>
+### &lt;script src="pro.data.js">&lt;/script> <span id="data"></span><a href="#top">To Top</a>
 
 - introduces observable wrapper over JS-objects and arrays:
 
@@ -288,7 +289,7 @@ var value = newsList(); // Evaluated into an empty array
 
 ---
 
-### &lt;script src="pro.view.js">&lt;/script>
+### &lt;script src="pro.view.js">&lt;/script> <span id="view"></span><a href="#top">To Top</a>
 
 - Introduces UI-view which can be binded to model. Sample with markup loaded via `pro-load`:
 
@@ -341,7 +342,7 @@ newsList.forEach(function (newsModel) {
 
 ---
 
-### &lt;script src="pro.mvvm.js">&lt;/script> <span id="pro-mvvm"><a href="#home">Go Home</a></span>
+### &lt;script src="pro.mvvm.js">&lt;/script> <span id="mvvm"></span><a href="#top">To Top</a>
 
 - Model-View-ViewModel implementation. ViewModel here is an observable `pro.data` object binded to HTML-element as following:
 
@@ -372,7 +373,7 @@ viewModel.newsList([{ topic: '...', text: '...' }]);
 ```
 ---
 
-### &lt;script src="pro.time.js">&lt;/script>
+### &lt;script src="pro.time.js">&lt;/script> <span id="time"></span><a href="#top">To Top</a>
 
 - contains time-related helpers available via `pro.time` object.
 
