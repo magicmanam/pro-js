@@ -48,7 +48,7 @@ app.unit('Toolbar')
                 newsStore.out('load-no-news');
             });
 
-        pro.id('some-news-link').on(click, function () {
+        pro.id('some-news-link').on('click', function () {
                 newsStore.out('load-news');
             });
     });
