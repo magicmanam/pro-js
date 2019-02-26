@@ -1,5 +1,5 @@
 <span id="top"><span>
-Features: <a href="#core">Core</a> | <a href="#unit">Unit</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> | <a href="#time">Time</a>
+Features: <a href="#core">Core</a> | <a href="#unit">Unit</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> | <a href="#time">Time</a> - <a href="tut-by">Example</a>
 
 ```html
 <!-- Total gzipped & compiled size < 2.5KB -->
@@ -117,7 +117,7 @@ app.unit('NewsList') // Defines 'NewsList' unit
          me.out('empty'); // Notify 'NewsList' unit subscribers that news list is empty
        }
     });
-  }
+  });
 ```
 
 > Define hierarchical states (separated with periods, e.g. 'news.expanded'). See sources for more details.
@@ -375,14 +375,3 @@ viewModel.newsList([{ topic: '...', text: '...' }]);
 ---
 
 ## [MIT license](http://opensource.org/licenses/MIT)
-
-<script src="src/pro.js"></script>
-<script src="src/pro.core.js"></script>
-<script src="src/pro.unit.js"></script>
-<script src="src/pro.http.js"></script>
-<script src="src/pro.tree.js"></script>
-<script src="src/pro.load.js"></script>
-<script src="src/pro.data.js"></script>
-<script src="src/pro.view.js"></script>
-<script src="src/pro.mvvm.js"></script>
-<script src="src/pro.time.js"></script>
