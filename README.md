@@ -1,3 +1,6 @@
+<span id="home"><span>
+<a id="pro-mvvm" href="#pro-mvvm">MVVM</a>
+
 ```html
 <!-- Total gzipped & compiled size < 2.5KB -->
 <!-- Total original & uncompressed size < 20KB -->
@@ -312,7 +315,7 @@ Somewhere in body:
 </body>
 ```
 
-`news-template.html` returns markup:
+`news-template.html` content:
 
 ```html
 <h2 class="topic"></h2>
@@ -338,7 +341,7 @@ newsList.forEach(function (newsModel) {
 
 ---
 
-### &lt;script src="pro.mvvm.js">&lt;/script>
+### &lt;script src="pro.mvvm.js">&lt;/script><span id="pro-mvvm"><a id="home">Go Home</a></span>
 
 - Model-View-ViewModel implementation. ViewModel here is an observable `pro.data` object binded to HTML-element as following:
 
