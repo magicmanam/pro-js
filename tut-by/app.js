@@ -44,11 +44,11 @@ pro.load.on('news-component.html', function (newsContainer) {
 app.unit('Toolbar')
     .on('NewsStore')
     .out(function (newsStore) {
-        proId('no-news-link').on('click', function () {
+        pro.id('no-news-link').on('click', function () {
                 newsStore.out('load-no-news');
             });
 
-        proId('some-news-link').on(click, function () {
+        pro.id('some-news-link').on(click, function () {
                 newsStore.out('load-news');
             });
     });
