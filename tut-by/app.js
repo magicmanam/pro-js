@@ -6,20 +6,22 @@ app.unit('NewsStore') // Defines 'NewsStore' unit inside of the application
     .out(function () { // Initialization function. 'this' refers to the unit itself
         var me = this;
 
-        this.on('load-news', function (eventModel) {
+        this.on('load-news', function (eventModel, callback) {
             pro.http.to('api/news') // Defines request to the endpoint
                 .on(200, pro.JSON(function (response) { // On HTTP 200 status code
                     me.out('news-loaded', response);
+                    callback();
                 }))
                 //.on('success|fail|end', callback) // Three well-known events
                 .header('Content-Type', 'application/json') // Any header is welcome
                 .get(); // Sends 'GET' request
         });
 
-        this.on('load-no-news', function (eventModel) {
+        this.on('load-no-news', function (eventModel, callback) {
             pro.http.to('api/no-news') // Defines request to the endpoint
                 .on(200, pro.JSON(function (response) { // On HTTP 200 status code
                     me.out('news-loaded', response);
+                    callback();
                 }))
                 .header('Content-Type', 'application/json') // Any header is welcome
                 .get();

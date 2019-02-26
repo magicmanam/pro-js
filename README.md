@@ -50,11 +50,11 @@ var unit = new pro.core();
 
 /* Subscribe on event. If event was triggered, listener is executed
 immediately. To override this pass the third 'skipLast' argument as true. */ 
-unit.on('event', function (eventData) {
+unit.on('event', function (eventData /*, function callback() { 'I am optional'; } */) {
                console.log('Event was triggered: ' + eventData);
              }/*, true */);
 
-// Trigger event. Optional the third callback can be executed after all listeners
+// Trigger event. Optional the third callback can be executed after all listeners (* bug here *)
 unit.out('event', 23 /*, function () { console.log('Well done!'); } */);
 //  Event was triggered: 23
 //  Well done!
@@ -128,13 +128,15 @@ app.unit('NewsList') // Defines 'NewsList' unit
  - a sweet wrapper over *XMLHttpRequest* object available via `pro.http` object:
  
 ```javascript
-this.on('load-news', function (eventModel) {
+this.on('load-news', function (eventModel, callback) {
   pro.http.to('/api/news') // Defines request to the endpoint
      .on(200, function (response) { // On HTTP 200 status code
                 newsStore.out('news-loaded', response);
+                callback(); // newsStore.out('load-news', null, callback);
               }) 
      .on(204, function () { 
                 newsStore.out('news-loaded', null);
+                callback();
               }) // Subscribe on any HTTP status
      .on('success|fail|end', callback) // Three well-known events
      .header('Content-Type', 'application/json') // Any header is welcome
