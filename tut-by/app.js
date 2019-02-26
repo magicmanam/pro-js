@@ -44,13 +44,30 @@ pro.load.on('news-component.html', function (newsContainer) {
 app.unit('Toolbar')
     .on('NewsStore')
     .out(function (newsStore) {
-        pro.id('no-news-link').on('click', function () {
-                newsStore.out('load-no-news');
+        var me = this;
+
+        this.state('no-news')
+                .to(function (){
+                    pro.id('some-news-link')
+                        .on('click', loadSomeNews)
+                        .to('href', 'javascript:void(0)');
+
+                    pro.id('no-news-link')
+                        .no(loadNoNews)
+                        .out('href');
+                })
+            .state('news')
+                .to(function () {
+                    pro.id('some-news-link')
+                        .no('click', loadSomeNews)
+                        .out('href');
+
+                    pro.id('no-news-link')
+                        .on(loadNoNews)
+                        .to('href', 'javascript:void(0)');
             });
 
-        pro.id('some-news-link').on('click', function () {
-                newsStore.out('load-news');
-            });
+        this.to('no-news');
     });
 
 pro.load.once('news-template.html', function (view) {
