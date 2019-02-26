@@ -6,10 +6,15 @@
     <title>Pro JS Forever!</title>
 </head>
 <body>
+    <h1>Pro JS Example</h1>
 
     <div pro-load="news-component.html"></div>
 
     <article pro-load="news-template.html" hidden></article>
+
+    <footer>
+        <div style="float: right">Back to Pro JS <a href="/">documentation</a></div>
+    </footer>
 
     <script src="../src/pro.js"></script>
     <script src="../src/pro.core.js"></script>
@@ -32,7 +37,7 @@
                 var me = this;
 
                 this.on('some-event', function (eventModel) {
-                    pro.http.to('/api/news') // Defines request to the endpoint
+                    pro.http.to('api/news') // Defines request to the endpoint
                         .on(200, function (response) { // On HTTP 200 status code
                             me.out('newsLoaded', response);
                         })

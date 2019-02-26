@@ -1,5 +1,5 @@
 <span id="top"><span>
-Features: <a href="#core">Core</a> | <a href="#unit">Unit</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> | <a href="#time">Time</a> - <a href="tut-by">Example</a>
+Features: <a href="#core">Core</a> | <a href="#unit">Unit</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> | <a href="#time">Time</a> --> <a href="tut-by">Example</a>
 
 ```html
 <!-- Total gzipped & compiled size < 2.5KB -->
