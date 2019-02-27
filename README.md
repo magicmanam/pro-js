@@ -1,5 +1,5 @@
 <span id="top"><span>
-Features: <a href="#base">Base</a> | <a href="#core">Core</a> | <a href="#unit">Unit</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> | <a href="#time">Time</a> >> <a href="tut-by">Example</a>
+<a href="#base">Base</a> | <a href="#core">Core</a> | <a href="#unit">Unit</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> | <a href="#time">Time</a> >> <a href="tut-by">Example</a>
 
 ```html
 <!-- Total gzipped & compiled size < 2.5KB -->
@@ -101,10 +101,10 @@ app.unit('NewsList') // Defines 'NewsList' unit
     me.state('no-news') // Defines optional state
         .to(function () { // Execute on entering into the state
            proId('blank-text').out('hidden'); // Removes 'hidden' attribute
-        })
+        }) // Returns state object with 'out' method
         .out(function () { // Optinal, execute on leaving the state
            proId('blank-text').to('hidden'); // Adds 'hidden' attribute
-        })
+        }) // Returns current unit object
       .state('news')
         .to(function (news) { ... });
       
@@ -237,7 +237,7 @@ pro.load.on('news-component.html', function (newsContainerDiv) {
 
 ```javascript
 var model = { topic: 'Sample', text: 'Observable model' },
-    news = new pro.data(model); // Or empty observable: 'new pro.data();'
+    news = pro.data(model); // Or empty observable: 'pro.data();'
 
 news.topic.on(function (topic) {
     // On topic change

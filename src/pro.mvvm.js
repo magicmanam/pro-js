@@ -26,6 +26,16 @@
     unit.eval = (function () {
         var node;
 
+        function _text(value) {
+            this.textContent = value || '';
+        }
+        function text(value) { _text.call(node, value); }
+
+        function _html(value) {
+            this.innerHTML = value || '';
+        }
+        function html(value) { _html.call(node, value); }
+
         function _show(value) {
             (value ? this.out : this.to).call(this, 'hidden');
         }
