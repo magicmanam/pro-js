@@ -36,6 +36,11 @@
         }
         function html(value) { _html.call(node, value); }
 
+        function _href(value) {
+            this.to('href', value || '');
+        }
+        function href(value) { _href.call(node, value); }
+
         function _show(value) {
             (value ? this.out : this.to).call(this, 'hidden');
         }

@@ -17,7 +17,7 @@
 ```
 
 ### &lt;script src="pro.js">&lt;/script> <span id="base"> |  </span><a href="#top">To top >></a>
- - defines short aliases for popular DOM-methods:
+ - defines short aliases for popular DOM-methods and extends Array objects:
 
 ```javascript
 pro.id('element-id'); // Gets element by id
@@ -39,11 +39,16 @@ element.on('event', listener); // Adds an event listener
 element.no('event', listener); // Removes an event listener
 element.toChildFree(); // Removes all childs (makes an element child free)
 ```
+
+```javascript
+var list = [1, 4, 23];
+list.remove(23); // Removes specified element from array
+```
 ---
 
 ### &lt;script src="pro.core.js">&lt;/script> <span id="core"> |  </span><a href="#top">To top >></a>
- - provides **sync** event-based programming model with on/once/out interface.
-Use `pro.core` constructor-function to create new ProJS-like components:
+ - provides **sync** event-based programming model with on/once/no/out interface.
+Use `pro.core` constructor-function to create complex ProJS-like components:
 
 ```javascript
 var unit = new pro.core();
@@ -54,13 +59,16 @@ unit.on('event', function (eventData /*, function callback() { 'I am optional'; 
                console.log('Event was triggered: ' + eventData);
              }/*, true */);
 
-// Trigger event. Optional the third callback can be executed after all listeners (* bug here *)
+// Triggers event. Optional the third callback can be executed after all listeners (* bug here *)
 unit.out('event', 23 /*, function () { console.log('Well done!'); } */);
 //  Event was triggered: 23
 //  Well done!
 
 // One-time listener
 unit.once('event', function (eventData) { } /*, true */);
+
+// Removes specified listener from regular- and once- listeners
+unit.no('event', function () { ... }});
 ```
  
 Use `pro.core` object to register global error handler for all listeners managed by ProJS:
@@ -70,7 +78,7 @@ pro.core.error(function (err) { console.log(err); });
 ---
 
 ### &lt;script src="pro.unit.js">&lt;/script> <span id="unit"> |  </span><a href="#top">To top >></a>
- - introduces unit with *states* concept:
+ - introduces app-unit. Extends core objects with *states* concept and DI:
 
 ```javascript
 var app = new pro.Unit(); // Initializes a new application unit
@@ -94,7 +102,7 @@ app.unit('NewsStore') // Defines 'NewsStore' unit inside of the application
 ```
 ```javascript
 app.unit('NewsList') // Defines 'NewsList' unit
-  .on('NewsStore') // Optional method, lists unit's dependencies
+  .on('NewsStore') // Optional list of unit dependencies
   .out(function (newsStore) {
     var me = this;
     
@@ -282,6 +290,8 @@ newsList([]); // * Here I have a bug - only the last listener was executed
 var value = newsList(); // Evaluated into an empty array
 ```
 
+Use `no` method to unsubscribe listener from data changed event
+
 > Initial object is changed with observable as well.
 
 ---
@@ -361,7 +371,7 @@ Here is how markup looks like:
 </div>
 ```
 
-`pro`-attributes in markup contain valid JS-expressions with predefined list of hacks: `show`, `hide`, `each`, `view` - for DOM-manipulation with element.
+`pro`-attributes in markup contain valid JS-expressions with predefined list of hacks: `show`, `hide`, `each`, `view`, 'text', 'html', 'href' - for DOM-manipulation with element.
 Markup is reevaluated on every model change. Extension point for custom hacks will be added later.
 
 ```javascript

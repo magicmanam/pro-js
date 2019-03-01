@@ -36,7 +36,18 @@
         }
 
         return this;
-    }
+    };
+
+    Core.prototype.no = function (action, listener) {
+        var eventData = this.getEventData(action);
+
+        if (eventData) {
+            eventData.listeners.remove(listener);
+            eventData.onceListeners.remove(listener);
+        }
+
+        return this;
+    };
 
     Core.prototype.once = function (action, callback, skipLast) {
         var eventData = this.getEventData(action);
