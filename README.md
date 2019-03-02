@@ -19,6 +19,7 @@
 ### &lt;script src="pro.js">&lt;/script> <span id="base"> |  </span><a href="#top">To top >></a>
  - defines short aliases for popular DOM-methods and extends Array objects:
 
+ proElement
 ```javascript
 pro.id('element-id'); // Gets element by id
 pro.class('class-name'); // Gets elements by class name
@@ -42,7 +43,7 @@ element.toChildFree(); // Removes all childs (makes an element child free)
 
 ```javascript
 var list = [1, 4, 23];
-list.remove(23); // Removes specified element from array
+list.remove(23); // Removes specified element(s) from array
 ```
 ---
 
@@ -232,7 +233,7 @@ In case your code unit depends on this markup, use `pro.load` object:
 
 ```javascript
 pro.load.on('news-component.html', function (newsContainerDiv) {
-  // After loading and ALL status code listeners execution
+  // After markup loading and all `pro.load.on(200, ...)` listeners
   app.unit('NewsList')
      .on('NewsStore')
      .out(function (newsStore) { ... });
@@ -360,7 +361,7 @@ newsList.forEach(function (newsModel) {
 - Model-View-ViewModel implementation. ViewModel here is an observable `pro.data` object binded to HTML-element as following:
 
 ```javascript
-var viewModel = pro.data({ newsList: [] });
+var viewModel = pro.data({ newsList: [], nextPageUrl: '/next' });
 
 pro.mvvm.to(proId('news-container'), viewModel);
 ```
@@ -374,10 +375,11 @@ Here is how markup looks like:
         <!-- Here will be inserted list of news view -->
     </div>
     <div pro="hide(newsList.length === 0)">Happy reading!</div>
+    <a pro="href(nextPageUrl)">Next</a>
 </div>
 ```
 
-`pro`-attributes in markup contain valid JS-expressions with predefined list of hacks: `show`, `hide`, `each`, `view`, `text`, `html`, `href` - for DOM-manipulation with element.
+`pro`-attributes in markup contain valid JS-expressions with predefined list of hacks: `show`, `hide`, `each`, `view`, `text`, `html`, `href`, `value` - for DOM-manipulation with element.
 Markup is reevaluated on every model change. Extension point for custom hacks will be added later.
 
 ```javascript
