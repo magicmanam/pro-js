@@ -2,8 +2,8 @@
 <a href="#base">Base</a> | <a href="#core">Core</a> | <a href="#unit">Unit</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> | <a href="#time">Time</a> >> <a href="tut-by">Example</a>
 
 ```html
-<!-- Total gzipped & compiled size < 2.5KB -->
-<!-- Total original & uncompressed size < 20KB -->
+<!-- Total gzipped & compiled size < 3KB -->
+<!-- Total original & uncompressed size < 23KB -->
 <script src="pro.js"></script>     <!-- DOM-methods aliases -->
 <script src="pro.core.js"></script><!-- Framework core -->
 <script src="pro.unit.js"></script><!-- App units with states and DI -->
@@ -65,10 +65,11 @@ unit.out('event', 23 /*, function () { console.log('Well done!'); } */);
 //  Well done!
 
 // One-time listener
-unit.once('event', function (eventData) { } /*, true */);
+function listener(eventData) { }
+unit.once('event', listener /*, true */);
 
 // Removes specified listener from regular- and once- listeners
-unit.no('event', function () { ... }});
+unit.no('event', listener);
 ```
  
 Use `pro.core` object to register global error handler for all listeners managed by ProJS:
@@ -280,9 +281,10 @@ newsList[0].on(function (article) {
 // As well as the listener above, because topic is changed too
 newsList[0]({ topic: 'Whole article changed', text: 'Text' });
 
-newsList.on(function (list) {
+function onChange(list) {
     // On news list change
-}); // See the line below which triggers this listener
+}
+newsList.on(onChange); // See the line below which triggers this listener
 // As well as two listeners above
 newsList([]); // * Here I have a bug - only the last listener was executed
 
@@ -291,6 +293,10 @@ var value = newsList(); // Evaluated into an empty array
 ```
 
 Use `no` method to unsubscribe listener from data changed event
+
+```javascript
+newsList.no(onChange);
+```
 
 > Initial object is changed with observable as well.
 
@@ -371,7 +377,7 @@ Here is how markup looks like:
 </div>
 ```
 
-`pro`-attributes in markup contain valid JS-expressions with predefined list of hacks: `show`, `hide`, `each`, `view`, 'text', 'html', 'href' - for DOM-manipulation with element.
+`pro`-attributes in markup contain valid JS-expressions with predefined list of hacks: `show`, `hide`, `each`, `view`, `text`, `html`, `href` - for DOM-manipulation with element.
 Markup is reevaluated on every model change. Extension point for custom hacks will be added later.
 
 ```javascript
