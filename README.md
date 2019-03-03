@@ -19,13 +19,13 @@
 ### &lt;script src="pro.js">&lt;/script> <span id="base"> |  </span><a href="#top">To top >></a>
  - defines short aliases for popular DOM-methods and extends Array objects:
 
- proElement
-```javascript
+ ```javascript
 pro.id('element-id'); // Gets element by id
 pro.class('class-name'); // Gets elements by class name
 pro.tag('tag-name'); // Gets elements by tag name
 document.on('some-event', fn); // Adds an event listener
 document.no('some-event', fn); // Removes an event listener
+let element = pro.element('div|span|a|...'); // Creates a new element of specified tag
 
 element.proId('child-element-id'); // Gets child element by id
 element.proClass('class-name'); // Gets child elements by class name
