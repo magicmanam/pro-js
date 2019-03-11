@@ -1,8 +1,8 @@
 <span id="top"><span>
-[Basic Reading](README.md) &lt;&lt; <a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a>
+<a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a> >> [Basic Reading](README.md)
 
 ### Smart start
-Look under the framework's hood with raw sources (*uncompressed size < 23KB*):
+Look under the framework's hood with raw sources (**uncompressed size < 23KB**):
 
 ```html
 <script src="pro.js"></script>     <!-- DOM-methods aliases -->

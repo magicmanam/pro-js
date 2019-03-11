@@ -1,9 +1,9 @@
 <span id="top"><span>
-<a href="#base">Base</a> | <a href="#unit">Unit</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> >> <a href="tut-by">Example</a> and [Advanced Reading](ADVANCED.md)
+<a href="#base">Base</a> | <a href="#unit">Unit</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> >> <a href="tut-by">Example</a> | [Advanced Reading](ADVANCED.md)
 
 
 ### Quick start
-Simply reference the minified JavaScript file (*gzipped & compiled size < 3KB*):
+Simply reference the minified JavaScript file (**gzipped & compiled size < 3KB**):
 
 ```html
 <script src="pro.all.js"></script>
@@ -255,7 +255,7 @@ var viewModel = pro.data({ newsList: [], nextPageUrl: '/next' });
 pro.mvvm.to(proId('news-container'), viewModel);
 ```
 
-> After that you can just change view model - markup will be updated automatically.
+> After that you need change only view model - markup will be updated on the fly!
 
 Here is how markup looks like:
 
