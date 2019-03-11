@@ -90,9 +90,7 @@ pro.load.once('news-template.html', function (view) {
     pro.view.name('news-view')(function () {
         return view.cloneNode(true);
     }) // It was markup-factory function
-        .on(function (model) { // Executed on model binding
-            this.out('hidden');
-            this.proClass('topic')[0].textContent = model.topic;
-            this.proClass('text')[0].textContent = model.text;
-        });
+    .on(function (model) { // Executed on model binding
+        this.out('hidden');
+    });
 });

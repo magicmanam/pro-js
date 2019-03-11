@@ -1,20 +1,14 @@
 <span id="top"><span>
-<a href="#base">Base</a> | <a href="#core">Core</a> | <a href="#unit">Unit</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> | <a href="#time">Time</a> >> <a href="tut-by">Example</a>
+<a href="#base">Base</a> | <a href="#unit">Unit</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> >> <a href="tut-by">Example</a> and [Advanced Reading](ADVANCED.md)
+
+
+### Quick start
+Simply reference the minified JavaScript file (*gzipped & compiled size < 3KB*):
 
 ```html
-<!-- Total gzipped & compiled size < 3KB -->
-<!-- Total original & uncompressed size < 23KB -->
-<script src="pro.js"></script>     <!-- DOM-methods aliases -->
-<script src="pro.core.js"></script><!-- Framework core -->
-<script src="pro.unit.js"></script><!-- App units with states and DI -->
-<script src="pro.http.js"></script><!-- Sweet HTTP client -->
-<script src="pro.tree.js"></script><!-- DOM-tree traversal -->
-<script src="pro.load.js"></script><!-- Dynamic markup loading -->
-<script src="pro.data.js"></script><!-- Observable objects -->
-<script src="pro.view.js"></script><!-- Model-bindable UI-unit -->
-<script src="pro.mvvm.js"></script><!-- Lightweight & simple MVVM -->
-<script src="pro.time.js"></script><!-- Time-functions -->
+<script src="pro.all.js"></script>
 ```
+---
 
 ### &lt;script src="pro.js">&lt;/script> <span id="base"> |  </span><a href="#top">To top >></a>
  - defines short aliases for popular DOM-methods and extends Array objects:
@@ -47,40 +41,8 @@ list.remove(23); // Removes specified element(s) from array
 ```
 ---
 
-### &lt;script src="pro.core.js">&lt;/script> <span id="core"> |  </span><a href="#top">To top >></a>
- - provides **sync** event-based programming model with on/once/no/out interface.
-Use `pro.core` constructor-function to create complex ProJS-like components:
-
-```javascript
-var unit = new pro.core();
-
-/* Subscribe on event. If event was triggered, listener is executed
-immediately. To override this pass the third 'skipLast' argument as true. */ 
-unit.on('event', function (eventData /*, function callback() { 'I am optional'; } */) {
-               console.log('Event was triggered: ' + eventData);
-             }/*, true */);
-
-// Triggers event. Optional the third callback can be executed after all listeners (* bug here *)
-unit.out('event', 23 /*, function () { console.log('Well done!'); } */);
-//  Event was triggered: 23
-//  Well done!
-
-// One-time listener
-function listener(eventData) { }
-unit.once('event', listener /*, true */);
-
-// Removes specified listener from regular- and once- listeners
-unit.no('event', listener);
-```
- 
-Use `pro.core` object to register global error handler for all listeners managed by ProJS:
-```javascript
-pro.core.error(function (err) { console.log(err); });
-```
----
-
 ### &lt;script src="pro.unit.js">&lt;/script> <span id="unit"> |  </span><a href="#top">To top >></a>
- - introduces app-unit. Extends core objects with *states* concept and DI:
+ - introduces app-unit with *states* concept and DI:
 
 ```javascript
 var app = new pro.Unit(); // Initializes a new application unit
@@ -134,74 +96,6 @@ app.unit('NewsList') // Defines 'NewsList' unit
 
 ---
 
-### &lt;script src="pro.http.js">&lt;/script> <span id="http"> |  </span><a href="#top">To top >></a>
- - a sweet wrapper over *XMLHttpRequest* object available via `pro.http` object:
- 
-```javascript
-this.on('load-news', function (eventModel, callback) {
-  pro.http.to('/api/news') // Defines request to the endpoint
-     .on(200, function (response) { // On HTTP 200 status code
-                newsStore.out('news-loaded', response);
-                callback(); // newsStore.out('load-news', null, callback);
-              }) 
-     .on(204, function () { 
-                newsStore.out('news-loaded', null);
-                callback();
-              }) // Subscribe on any HTTP status
-     .on('success|fail|end', callback) // Three well-known events
-     .header('Content-Type', 'application/json') // Any header is welcome
-     .get(); // Sends 'GET' request
-}); // This is how 'NewsStore' unit's code can be enhanced
-```
-
-Send other types of requests:
-```javascript
-pro.http.to('api/news')
-   .post({ topic: 'ProJS framework released!',
-           text: 'Good news for all of you!' })
-   //.put({ text: 'Frontend future is elegant with ProJS!' })
-   //.delete({ text: 'Angular + React + VueJS' })
-   //.out('%HTTP_VERB%', data); // - Generic request
-```
-
-There are special `pro.http` object events: **'open'**, **'end'**, any **%status code%** (e.g. 403, 500) - to add some HTTP-interceptor:
-
-```javascript
-pro.http.on('open', function (request) {
-  request.header('Authorization', 'Bearer ' + token); // Adds auth token on each request
-});
-
-pro.http.on(401, function () {
-  loginUnit.open(); // Sends 'open'-event to loginUnit
-});
-```
----
-
-### &lt;script src="pro.tree.js">&lt;/script> <span id="tree"> |  </span><a href="#top">To top >></a>
- - performs in depth DOM-tree traversal for DOM preprocessing:
- 
- ```javascript
- // In case you have some custom logic
- pro.tree.on('node', function (element) {
-    // Your logic with node here
- });
-
- pro.tree.on('end', function () {
-    // Tree was traversed and all nodes are processed..
- });
-
- // Initialize tree traversal for elements:
- pro.tree.depth(document.children);
-
- // In case you need a new 'tree', create it
- var tree = pro.tree.new();
- // Use 'tree' variable as 'pro.tree' object above
- ```
-
- > Pro-philosophy: see in sources of `pro.load.js` file below how to use `pending` event for advanced scenarios.
-
----
-
 ### &lt;script src="pro.load.js">&lt;/script> <span id="load"> |  </span><a href="#top">To top >></a>
 - subscribes on DOM-tree traversal and loads HTML content for elements with **'pro-load'** tags:
 
@@ -242,7 +136,6 @@ pro.load.on('news-component.html', function (newsContainerDiv) {
 ---
 
 ### &lt;script src="pro.data.js">&lt;/script> <span id="data"> |  </span><a href="#top">To top >></a>
-
 - introduces observable wrapper over JS-objects and arrays:
 
 ```javascript
@@ -304,25 +197,7 @@ newsList.no(onChange);
 ---
 
 ### &lt;script src="pro.view.js">&lt;/script> <span id="view"> |  </span><a href="#top">To top >></a>
-
 - Introduces UI-view which can be binded to model. Sample with markup loaded via `pro-load`:
-
-```javascript
-pro.load.once('news-template.html', function (view) {
-    'use strict';
-    // Define view named 'news-view'
-    pro.view.name('news-view')(function () {
-            return view.cloneNode(true);
-        }) // It was markup-factory function
-        .on(function (model) { // Executed on model binding
-            this.out('hidden');
-            this.proClass('topic')[0].textContent = model.topic;
-            this.proClass('text')[0].textContent = model.text;
-        });
-});
-```
-
-Somewhere in body:
 
 ```html
     ...
@@ -333,8 +208,23 @@ Somewhere in body:
 `news-template.html` content:
 
 ```html
-<h2 class="topic"></h2>
-<p class="text"></p>
+<h2 pro="text(topic)"></h2>
+<p pro="text(text)"></p>
+```
+
+> `pro` tag will be explained in the next section.
+
+```javascript
+pro.load.once('news-template.html', function (view) {
+    'use strict';
+    // Define view named 'news-view'
+    pro.view.name('news-view')(function () {
+            return view.cloneNode(true);
+        }) // It was markup-factory function
+        .on(function (model) { // Executed on model binding
+            this.out('hidden');
+        });
+});
 ```
 
 Now you can mention this view in two ways:
@@ -357,7 +247,6 @@ newsList.forEach(function (newsModel) {
 ---
 
 ### &lt;script src="pro.mvvm.js">&lt;/script> <span id="mvvm"> |  </span><a href="#top">To top >></a>
-
 - Model-View-ViewModel implementation. ViewModel here is an observable `pro.data` object binded to HTML-element as following:
 
 ```javascript
@@ -365,6 +254,8 @@ var viewModel = pro.data({ newsList: [], nextPageUrl: '/next' });
 
 pro.mvvm.to(proId('news-container'), viewModel);
 ```
+
+> After that you can just change view model - markup will be updated automatically.
 
 Here is how markup looks like:
 
@@ -386,12 +277,6 @@ Markup is reevaluated on every model change. Extension point for custom hacks wi
 viewModel.newsList([{ topic: '...', text: '...' }]);
 // The html above will be immediately updated
 ```
----
-
-### &lt;script src="pro.time.js">&lt;/script> <span id="time"> |  </span><a href="#top">To top >></a>
-
-- contains time-related helpers available via `pro.time` object.
-
 ---
 
 ## [MIT license](http://opensource.org/licenses/MIT)
