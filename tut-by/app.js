@@ -20,7 +20,7 @@ app.unit('NewsStore') // Defines 'NewsStore' unit inside of the application
         this.on('load-many-news', function (eventModel, callback) {
             var i, news = [];
 
-            for (i = 300; i > 0; i--) {
+            for (i = 100; i > 0; i--) {
                 me.out('news-loaded', news);
                 // The line above must be out of for cycle
                 // But let's see how ProJS works in stress ;)
