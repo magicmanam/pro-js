@@ -66,7 +66,7 @@ app.unit('Toolbar')
                     .no(loadNoNews)
                     .out('href');
             })
-            out(function () {
+            .out(function () {
                 pro.id('no-news-link')
                     .on('click', loadNoNews)
                     .to('href', 'javascript:void(0)');
