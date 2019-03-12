@@ -20,7 +20,7 @@ app.unit('NewsStore') // Defines 'NewsStore' unit inside of the application
         this.on('load-many-news', function (eventModel, callback) {
             var i, news = [];
 
-            for (i = 0; i < 1000; i++) {
+            for (i = 1000; i > 0; i--) {
                 me.out('news-loaded', news);
                 // The line above must be out of for cycle
                 // But let's see how ProJS works in stress ;)
@@ -95,6 +95,14 @@ app.unit('Toolbar')
                     .on('click', loadManyNews)
                     .to('href', 'javascript:void(0)');
             });
+
+        pro.id('no-news-link')
+            .on('click', loadNoNews);
+        pro.id('many-news-link')
+            .on('click', loadManyNews);
+        pro.id('some-news-link')
+            .on('click', loadSomeNews);
+
 
         function loadSomeNews() {
             newsStore.out('load-news', null, function () {
