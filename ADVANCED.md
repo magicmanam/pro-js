@@ -1,5 +1,5 @@
 <span id="top"><span>
-<a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a> >> [Basic Reading](README.md)
+<a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a> >> [Basic](README.md)
 
 ### Smart start
 Look under the framework's hood with raw sources (**uncompressed size < 23KB**):

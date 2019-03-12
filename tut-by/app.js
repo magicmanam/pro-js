@@ -17,6 +17,18 @@ app.unit('NewsStore') // Defines 'NewsStore' unit inside of the application
                 .get(); // Sends 'GET' request
         });
 
+        this.on('load-many-news', function (eventModel, callback) {
+            var i, news = [];
+
+            for (i = 0; i < 1000; i++) {
+                me.out('news-loaded', news);
+                // The line above must be out of for cycle
+                // But let's see how ProJS works in stress ;)
+                news.push({ topic: 'Topic ' + i, content: 'Content of some text ' + i });
+            }
+            callback();
+        });
+
         this.on('load-no-news', function (eventModel, callback) {
             pro.http.to('api/no-news') // Defines request to the endpoint
                 .on(200, pro.JSON(function (response) { // On HTTP 200 status code
@@ -50,28 +62,49 @@ app.unit('Toolbar')
 
         this.state('no-news')
             .to(function () {
-                pro.id('some-news-link')
-                    .on('click', loadSomeNews)
-                    .to('href', 'javascript:void(0)');
-
                 pro.id('no-news-link')
                     .no(loadNoNews)
                     .out('href');
+            })
+            out(function () {
+                pro.id('no-news-link')
+                    .on('click', loadNoNews)
+                    .to('href', 'javascript:void(0)');
             });
-        this.state('news')
-                .to(function () {
-                    pro.id('some-news-link')
-                        .no('click', loadSomeNews)
-                        .out('href');
 
-                    pro.id('no-news-link')
-                        .on('click', loadNoNews)
-                        .to('href', 'javascript:void(0)');
+        this.state('news')
+            .to(function () {
+                pro.id('some-news-link')
+                    .no('click', loadSomeNews)
+                    .out('href');
+            })
+            .out(function () {
+                pro.id('some-news-link')
+                    .on('click', loadSomeNews)
+                    .to('href', 'javascript:void(0)');
+            });
+
+        this.state('many-news')
+            .to(function () {
+                pro.id('many-news-link')
+                    .no('click', loadSomeNews)
+                    .out('href');
+            })
+            .out(function () {
+                pro.id('many-news-link')
+                    .on('click', loadManyNews)
+                    .to('href', 'javascript:void(0)');
             });
 
         function loadSomeNews() {
             newsStore.out('load-news', null, function () {
                 me.to('news');
+            });
+        }
+
+        function loadManyNews() {
+            newsStore.out('load-many-news', null, function () {
+                me.to('many-news');
             });
         }
 
