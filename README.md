@@ -1,5 +1,5 @@
 <span id="top"><span>
-<a href="#unit">Unit</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> >> <a href="tut-by">Example</a> | [Under the hood](advanced.md)
+<a href="#unit">Unit</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> >> <a href="tut-by">**Example**</a> | *[Under the hood](advanced.md)*
 
 
 ### Quick start
@@ -205,11 +205,11 @@ newsList.no(onChange);
 </body>
 ```
 
-`news-template.html` content:
+`news-template.html` markup:
 
 ```html
 <h2 pro="text(topic)"></h2>
-<p pro="text(text)"></p>
+<p pro="text(content)"></p>
 ```
 
 > `pro` tag will be explained in the next section.
