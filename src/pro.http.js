@@ -6,7 +6,6 @@
     core.to = function (url) {
         var xhttp = new XMLHttpRequest(),
             statusCallbacks = {},
-            onceCallbacks = [],
             sync = false,
             headers = [];
 
@@ -19,10 +18,6 @@
                 core.out(status, response);
 
                 callbacks.forEach(function (callback) {
-                    callback(response);
-                });
-
-                onceCallbacks.forEach(function (callback) {
                     callback(response);
                 });
 
@@ -63,35 +58,26 @@
                 headers.push({ h: header, v: value });
                 return that;
             },
-            once: function (callback) {
-                onceCallbacks.push(callback);
-            },
             outJSON: function (verb, data) {
                 that.header('Content-Type', 'application/json');
-                that.out(verb, data);
+                return that.out(verb, data);
             },
-            out: function (verb, data, raw) {
+            out: function (verb, data) {
                 core.out('open', that);
 
                 xhttp.open(verb, url, !sync);
                 headers.forEach(function (header) {
                     xhttp.setRequestHeader(header.h, header.v);
                 })
-                xhttp.send(raw ? data : JSON.stringify(data));
-            },
-            outString: function (verb, data) {
-                core.out('open', that);
+                xhttp.send(typeof data === 'object' ? JSON.stringify(data) : data);
+                core.out('send', that);
 
-                xhttp.open(verb, url, !sync);
-                headers.forEach(function (header) {
-                    xhttp.setRequestHeader(header.h, header.v);
-                })
-                xhttp.send(data);
+                return that;
             },
-            get: function () { that.out('get'); },
-            post: function (data, raw) { that.out('post', data, raw); },
-            put: function (data, raw) { that.out('put', data, raw); },
-            delete: function (data, raw) { that.out('delete', data, raw); }
+            get: function () { return that.out('get'); },
+            post: function (data) { return that.out('post', data); },
+            put: function (data) { return that.out('put', data); },
+            delete: function (data) { return that.out('delete', data); }
         };
 
         return that;

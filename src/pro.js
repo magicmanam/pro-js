@@ -8,6 +8,9 @@ function pro(document, window) {
             return function (data) {
                 return callback(JSON.parse(data));
             }
+        },
+        safe: function (callback) {
+            return callback || function () { };
         }
     };
 

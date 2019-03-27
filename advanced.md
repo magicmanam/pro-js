@@ -1,5 +1,5 @@
 <span id="top"><span>
-<a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a> >> [Basic](README.md)
+<a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a> >> **[Back to Basic](README.md#top)**
 
 ### Smart start
 Look under the framework's hood with raw sources (**uncompressed size < 23KB**):
@@ -18,8 +18,8 @@ Look under the framework's hood with raw sources (**uncompressed size < 23KB**):
 ```
 ---
 
-### &lt;script src="pro.core.js">&lt;/script> <span id="core"></span>
- - provides **sync** event-based programming model with on/once/no/out interface.
+### &lt;script src="pro.core.js">&lt;/script> <span id="core"></span> |  </span><a href="#top">To top >></a>
+ - provides **sync** event-based programming model with on/once/no/out fluent interface.
 Use `pro.core` constructor-function to create complex ProJS-like components:
 
 ```javascript
@@ -80,7 +80,7 @@ pro.http.to('api/news')
    //.out('%HTTP_VERB%', data); // - Generic request
 ```
 
-There are special `pro.http` object events: **'open'**, **'end'**, any **%status code%** (e.g. 403, 500) - to add some HTTP-interceptor:
+There are special `pro.http` object events: **'open'** - before request start, **'send'** - right after request send, **'end'** - after response received, any **%status code%** (e.g. 403, 500) - to add some HTTP-interceptor:
 
 ```javascript
 pro.http.on('open', function (request) {

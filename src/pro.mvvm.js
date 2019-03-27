@@ -7,7 +7,7 @@
         let tree = pro.tree.new();
 
         tree.on('node', function (node) {
-            if (node.is('pro')) {
+            if (node.is && node.is('pro')) {
                 tree.once('end', function () {
                     vm.on(function (model) {
                         var modelKeys = '';

@@ -8,7 +8,7 @@
         updateTime(secondsToCount);
 
         function updateTime() {
-            if (secondsToCount > 0) {
+            if (secondsToCount >= 0) {
                 onTick(secondsToCount);
                 timeoutId = setTimeout(updateTime, parseInt((endDate - new Date()) / secondsToCount));
                 secondsToCount--;

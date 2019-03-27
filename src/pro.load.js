@@ -8,7 +8,7 @@
 
     function loadNodeForFree(tree) {
         tree.on('node', function (node) {
-            if (node.is('pro-load')) {
+            if (node.is && node.is('pro-load')) {
                 let url = node.getAttribute('pro-load');
                 let subTree = tree.new();
 

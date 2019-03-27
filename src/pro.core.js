@@ -32,7 +32,9 @@
             }
         } else {
             this.setEventData(action, { listeners: [listener], onceListeners: [] });
-            this[action] = function (model, callback) { this.out(action, model, callback); };
+            this[action] = function (model, callback) {
+                return this.out(action, model, callback);
+            };
         }
 
         return this;
@@ -62,7 +64,9 @@
             }
         } else {
             this.setEventData(action, { listeners: [], onceListeners: [callback] });
-            this[action] = function (model, callback) { this.out(action, model, callback); };
+            this[action] = function (model, callback) {
+                return this.out(action, model, callback);
+            };
         }
 
         return this;
@@ -89,6 +93,8 @@
         } else {
             this.setEventData(action, { lastEventValue: value, listeners: [], onceListeners: [], containsEventValue: true });
         }
+
+        return this;
     };
 
     function outError(err) {

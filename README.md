@@ -1,5 +1,5 @@
 <span id="top"><span>
-<a href="#unit">Unit</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> >> <a href="tut-by">**Example**</a> | *[Under the hood](advanced.md)*
+<a href="#unit">Unit</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> >> <a href="tut-by">**Example**</a> | *[Under the hood](advanced.md#top)*
 
 
 ### Quick start
@@ -10,8 +10,8 @@ Simply reference the minified JavaScript file (**gzipped & compiled size < 3KB**
 ```
 ---
 
-### &lt;script src="pro.js">&lt;/script> <span id="base"> |  </span><a href="#top">To top >></a>
- - defines short aliases for popular DOM-methods and extends Array objects:
+### &lt;script src="pro.js">&lt;/script>
+ - defines short aliases for popular DOM-methods and extends Array objects, and other useful methods:
 
  ```javascript
 pro.id('element-id'); // Gets element by id
@@ -39,6 +39,12 @@ element.toChildFree(); // Removes all childs (makes an element child free)
 var list = [1, 4, 23];
 list.remove(23); // Removes specified element(s) from array
 ```
+
+```javascript
+pro.safe(callback)(); // Safe function wrapper to avoid 'callback is not defined' exceptions
+pro.JSON(function (jsonObject) { ... }); // See sources for more details :)
+```
+
 ---
 
 ### &lt;script src="pro.unit.js">&lt;/script> <span id="unit"> |  </span><a href="#top">To top >></a>
