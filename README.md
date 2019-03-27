@@ -1,5 +1,5 @@
 <span id="top"><span>
-<a href="#unit">Unit</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> >> <a href="tut-by">**Example**</a> | *[Under the hood](advanced.md#top)*
+**Basic: ** <a href="#unit">Unit</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> | <a href="tut-by">Example</a> >> *[Under the hood](advanced.md#top)*
 
 
 ### Quick start

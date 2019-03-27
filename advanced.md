@@ -1,5 +1,5 @@
 <span id="top"><span>
-<a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a> >> **[Back to Basic](README.md#top)**
+**Advanced: ** <a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a> >> *[Basic](README.md#top)*
 
 ### Smart start
 Look under the framework's hood with raw sources (**uncompressed size < 23KB**):
@@ -18,7 +18,7 @@ Look under the framework's hood with raw sources (**uncompressed size < 23KB**):
 ```
 ---
 
-### &lt;script src="pro.core.js">&lt;/script> <span id="core"></span> |  </span><a href="#top">To top >></a>
+### &lt;script src="pro.core.js">&lt;/script> <span id="core"></span> | <a href="#top">To top >></a>
  - provides **sync** event-based programming model with on/once/no/out fluent interface.
 Use `pro.core` constructor-function to create complex ProJS-like components:
 
