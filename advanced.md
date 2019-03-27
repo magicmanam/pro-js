@@ -1,5 +1,5 @@
-<span id="top"><span>
-**Advanced: ** <a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a> >> *[Basic](README.md#top)*
+<span id="top"></span>
+<strong>Advanced: </strong> <a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a> >> *[Basic](README.md#top)*
 
 ### Smart start
 Look under the framework's hood with raw sources (**uncompressed size < 23KB**):
