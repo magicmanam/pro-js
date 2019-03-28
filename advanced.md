@@ -19,7 +19,7 @@ Look under the framework's hood with raw sources (**uncompressed size < 23KB**):
 ---
 
 ### &lt;script src="pro.core.js">&lt;/script> <span id="core"></span> | <a href="#top">To top >></a>
- - provides **sync** event-based programming model with on/once/no/out *fluent* interface.
+ - provides **sync** event-based programming model with *fluent* `on/once/no/out` interface.
 Use `pro.core` constructor-function to create complex ProJS-like components:
 
 ```javascript
