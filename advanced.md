@@ -19,7 +19,7 @@ Look under the framework's hood with raw sources (**uncompressed size < 23KB**):
 ---
 
 ### &lt;script src="pro.core.js">&lt;/script> <span id="core"></span> | <a href="#top">To top >></a>
- - provides **sync** event-based programming model with on/once/no/out fluent interface.
+ - provides **sync** event-based programming model with on/once/no/out *fluent* interface.
 Use `pro.core` constructor-function to create complex ProJS-like components:
 
 ```javascript
@@ -80,7 +80,7 @@ pro.http.to('api/news')
    //.out('%HTTP_VERB%', data); // - Generic request
 ```
 
-There are special `pro.http` object events: **'open'** - before request start, **'send'** - right after request send, **'end'** - after response received, any **%status code%** (e.g. 403, 500) - to add some HTTP-interceptor:
+There are special `pro.http` object events: **'open'** - before request start, **'send'** - right after request send, **'end'** - after response received and all callbacks completed, any **%status code%** (e.g. 403, 500) - to add some HTTP-interceptor:
 
 ```javascript
 pro.http.on('open', function (request) {
