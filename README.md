@@ -116,7 +116,7 @@ app.on('auth-unit', function (authUnit) {
 ---
 
 ### &lt;script src="pro.load.js">&lt;/script> <span id="load"> |  </span><a href="#top">To top >></a>
-- subscribes on DOM-tree traversal and loads HTML content for elements with **'pro-load'** tags:
+- subscribes on [DOM-tree traversal](advanced.md#tree) and loads HTML content for elements with **'pro-load'** tags:
 
 `<div pro-load="news-component.html"></div>`
 
