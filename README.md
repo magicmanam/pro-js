@@ -3,10 +3,11 @@
 
 
 ### Quick start
-Simply reference the minified JavaScript file (**gzipped & compiled size < 3KB**):
+There are no dependencies, just reference one JavaScript file:
 
 ```html
 <script src="pro.all.min.js"></script><!--  <3 KB -->
+<!-- Or -->
 <script src="pro.all.js"></script><!-- <23 KB of disassembled code -->
 ```
 ---
@@ -101,11 +102,12 @@ app.unit('NewsList') // Defines 'NewsList' unit
 
 > Define hierarchical states (separated with periods, e.g. 'news.expanded'). See sources for more details.
 
+
 In case you have to violate **SOLID** world, consider `Service Locator` approach as our DEV sin: 
 
 ```javascript
 // Somewhere you can not define unit with injected dependency
-// and have only access to your application instance
+// and have access only to your application instance
 app.on('auth-unit', function (authUnit) {
     authUnit.to('login');
 });
