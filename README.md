@@ -8,7 +8,7 @@ There are no dependencies, just reference one JavaScript file:
 ```html
 <script src="pro.all.min.js"></script><!--  <3 KB -->
 <!-- Or -->
-<script src="pro.all.js"></script><!-- <23 KB -->
+<script src="pro.all.js"></script>   <!-- <23 KB -->
 ```
 ---
 
@@ -40,7 +40,7 @@ element.toChildFree(); // Removes all childs (makes an element child free)
 ---
 
 ### **pro.unit** <span id="unit"> |  </span><a href="#top">To top >></a>
- - introduces app-unit with *states* concept and own DI:
+Introduces app-unit with *states* concept and own DI:
 
 ```javascript
 var app = new pro.Unit(); // Initializes a new application unit
@@ -107,7 +107,7 @@ app.on('auth-unit', function (authUnit) {
 ---
 
 ### **pro.load** <span id="load"> |  </span><a href="#top">To top >></a>
-- subscribes on [DOM-tree traversal](advanced.md#tree) and loads HTML content for elements with **'pro-load'** tags:
+Subscribes on [DOM-tree traversal](advanced.md#tree) and loads HTML content for elements with **'pro-load'** tags:
 
 `<div pro-load="news-component.html"></div>`
 
@@ -146,7 +146,7 @@ pro.load.on('news-component.html', function (newsContainerDiv) {
 ---
 
 ### **pro.data** <span id="data"> |  </span><a href="#top">To top >></a>
-- introduces observable wrapper over JS-objects and arrays:
+Introduces observable wrapper over JS-objects and arrays:
 
 ```javascript
 var model = { topic: 'Sample', text: 'Observable model' },
@@ -168,7 +168,7 @@ var topic = news.topic(); // Evaluated into 'New article'
 var value = news(); // Evaluated into an object: { topic: 'New article', text: 'Text' }
 ```
 
-- observable arrays:
+Observable arrays:
 
 ```javascript
 var modelArray = [model],
@@ -207,7 +207,7 @@ newsList.no(onChange);
 ---
 
 ### **pro.view** <span id="view"> |  </span><a href="#top">To top >></a>
-- Introduces UI-view which can be binded to model. Sample with markup loaded via `pro-load`:
+Introduces UI-view which can be binded to model. Sample with markup loaded via `pro-load`:
 
 ```html
     ...
@@ -257,7 +257,7 @@ newsList.forEach(function (newsModel) {
 ---
 
 ### **pro.mvvm** <span id="mvvm"> |  </span><a href="#top">To top >></a>
-- Model-View-ViewModel implementation. ViewModel here is an observable `pro.data` object binded to HTML-element as following:
+Implements **Model-View-ViewModel** pattern. ViewModel here is an observable `pro.data` object binded to HTML-element as following:
 
 ```javascript
 var viewModel = pro.data({ newsList: [], nextPageUrl: '/next' });

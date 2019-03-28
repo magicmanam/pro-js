@@ -1,5 +1,5 @@
 <span id="top"></span>
-<strong>Advanced: </strong> <a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a> >> *[Basic](README.md#top)*
+**Advanced: ** <a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a> >> *[Basic](README.md#top)*
 
 ### **Smart start**
 Look under the framework's hood and try to understand how it is built:
@@ -19,7 +19,7 @@ Look under the framework's hood and try to understand how it is built:
 ---
 
 ### **pro.core** <span id="core"></span> | <a href="#top">To top >></a>
- - provides **sync** event-based programming model with *fluent* `on/once/no/out` interface.
+Provides **sync** event-based programming model with *fluent* `on/once/no/out` interface.
 Use `pro.core` constructor-function to create complex ProJS-like components:
 
 ```javascript
@@ -51,7 +51,7 @@ pro.core.error(function (err) { console.log(err); });
 ---
 
 ### **pro.http** <span id="http"> |  </span><a href="#top">To top >></a>
- - a sweet wrapper over *XMLHttpRequest* object available via `pro.http` object:
+A sweet wrapper over *XMLHttpRequest* object available via `pro.http` object:
  
 ```javascript
 this.on('load-news', function (eventModel, callback) {
@@ -94,7 +94,7 @@ pro.http.on(401, function () {
 ---
 
 ### **pro.tree** <span id="tree"> |  </span><a href="#top">To top >></a>
- - performs in depth DOM-tree traversal for DOM preprocessing:
+Performs in depth DOM-tree traversal for DOM preprocessing:
  
  ```javascript
  // In case you have some custom logic
@@ -119,7 +119,7 @@ pro.http.on(401, function () {
 ---
 
 ### **pro.time** <span id="time"> |  </span><a href="#top">To top >></a>
-- contains time-related helpers available via `pro.time` object.
+Contains time-related helpers available via `pro.time` object.
 
 ---
 
@@ -130,7 +130,7 @@ pro.safe(callback)(); // Safe function wrapper to avoid 'callback is not defined
 pro.JSON(function (jsonObject) { ... }); // See sources for more details :)
 ```
 
-Extends Array objects:
+Array extensions:
 
 ```javascript
 var list = [1, 4, 23];
