@@ -20,7 +20,7 @@ app.unit('NewsStore') // Defines 'NewsStore' unit inside of the application
             .on('load-many-news', function (eventModel, callback) {
                 var i, news = [];
 
-                for (i = 0; i < 300; ++i) {
+                for (i = 1; i <= 100; i++) {
                     news.unshift({ topic: 'Topic ' + i, content: 'Content of some text ' + i });
                 }
 

@@ -2,18 +2,18 @@
 <strong>Basic: </strong> <a href="#unit">Unit</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> | <a href="tut-by">Example</a> >> *[Advanced](advanced.md#top)*
 
 
-### Quick start
+### **Simple start**
 There are no dependencies, just reference one JavaScript file:
 
 ```html
 <script src="pro.all.min.js"></script><!--  <3 KB -->
 <!-- Or -->
-<script src="pro.all.js"></script><!-- <23 KB of disassembled code -->
+<script src="pro.all.js"></script><!-- <23 KB -->
 ```
 ---
 
-### &lt;script src="pro.js">&lt;/script>
- - defines short aliases for popular DOM-methods and extends Array objects, and other useful methods:
+### **Intro**
+The framework defines short aliases for popular DOM-methods:
 
  ```javascript
 pro.id('element-id'); // Gets element by id
@@ -37,20 +37,10 @@ element.no('event', listener); // Removes an event listener
 element.toChildFree(); // Removes all childs (makes an element child free)
 ```
 
-```javascript
-var list = [1, 4, 23];
-list.remove(23); // Removes specified element(s) from array
-```
-
-```javascript
-pro.safe(callback)(); // Safe function wrapper to avoid 'callback is not defined' exceptions
-pro.JSON(function (jsonObject) { ... }); // See sources for more details :)
-```
-
 ---
 
-### &lt;script src="pro.unit.js">&lt;/script> <span id="unit"> |  </span><a href="#top">To top >></a>
- - introduces app-unit with *states* concept and DI:
+### **pro.unit** <span id="unit"> |  </span><a href="#top">To top >></a>
+ - introduces app-unit with *states* concept and own DI:
 
 ```javascript
 var app = new pro.Unit(); // Initializes a new application unit
@@ -103,11 +93,12 @@ app.unit('NewsList') // Defines 'NewsList' unit
 > Define hierarchical states (separated with periods, e.g. 'news.expanded'). See sources for more details.
 
 
-In case you have to violate **SOLID** world, consider `Service Locator` approach as our DEV sin: 
+In case you have to violate **SOLID** world, consider `Service Locator` sin: 
 
 ```javascript
 // Somewhere you can not define unit with injected dependency
 // and have access only to your application instance
+...
 app.on('auth-unit', function (authUnit) {
     authUnit.to('login');
 });
@@ -115,12 +106,12 @@ app.on('auth-unit', function (authUnit) {
 
 ---
 
-### &lt;script src="pro.load.js">&lt;/script> <span id="load"> |  </span><a href="#top">To top >></a>
+### **pro.load** <span id="load"> |  </span><a href="#top">To top >></a>
 - subscribes on [DOM-tree traversal](advanced.md#tree) and loads HTML content for elements with **'pro-load'** tags:
 
 `<div pro-load="news-component.html"></div>`
 
-Content for the element above will be downloaded from the specified url. Nested 'pro-load'-elements are supported, content for them will be loaded immediately.
+Content for the element above will be downloaded from the specified url. **Nested** 'pro-load'-elements are supported, content for them will be loaded immediately.
 
 To handle situations with html missing, subscribe on `pro.load` 404 event:
 
@@ -154,7 +145,7 @@ pro.load.on('news-component.html', function (newsContainerDiv) {
 ```
 ---
 
-### &lt;script src="pro.data.js">&lt;/script> <span id="data"> |  </span><a href="#top">To top >></a>
+### **pro.data** <span id="data"> |  </span><a href="#top">To top >></a>
 - introduces observable wrapper over JS-objects and arrays:
 
 ```javascript
@@ -215,7 +206,7 @@ newsList.no(onChange);
 
 ---
 
-### &lt;script src="pro.view.js">&lt;/script> <span id="view"> |  </span><a href="#top">To top >></a>
+### **pro.view** <span id="view"> |  </span><a href="#top">To top >></a>
 - Introduces UI-view which can be binded to model. Sample with markup loaded via `pro-load`:
 
 ```html
@@ -265,7 +256,7 @@ newsList.forEach(function (newsModel) {
 
 ---
 
-### &lt;script src="pro.mvvm.js">&lt;/script> <span id="mvvm"> |  </span><a href="#top">To top >></a>
+### **pro.mvvm** <span id="mvvm"> |  </span><a href="#top">To top >></a>
 - Model-View-ViewModel implementation. ViewModel here is an observable `pro.data` object binded to HTML-element as following:
 
 ```javascript

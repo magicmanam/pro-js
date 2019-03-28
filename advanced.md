@@ -1,7 +1,7 @@
 <span id="top"></span>
 <strong>Advanced: </strong> <a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a> >> *[Basic](README.md#top)*
 
-### Smart start
+### **Smart start**
 Look under the framework's hood and try to understand how it is built:
 
 ```html
@@ -18,7 +18,7 @@ Look under the framework's hood and try to understand how it is built:
 ```
 ---
 
-### &lt;script src="pro.core.js">&lt;/script> <span id="core"></span> | <a href="#top">To top >></a>
+### **pro.core** <span id="core"></span> | <a href="#top">To top >></a>
  - provides **sync** event-based programming model with *fluent* `on/once/no/out` interface.
 Use `pro.core` constructor-function to create complex ProJS-like components:
 
@@ -50,7 +50,7 @@ pro.core.error(function (err) { console.log(err); });
 ```
 ---
 
-### &lt;script src="pro.http.js">&lt;/script> <span id="http"> |  </span><a href="#top">To top >></a>
+### **pro.http** <span id="http"> |  </span><a href="#top">To top >></a>
  - a sweet wrapper over *XMLHttpRequest* object available via `pro.http` object:
  
 ```javascript
@@ -93,7 +93,7 @@ pro.http.on(401, function () {
 ```
 ---
 
-### &lt;script src="pro.tree.js">&lt;/script> <span id="tree"> |  </span><a href="#top">To top >></a>
+### **pro.tree** <span id="tree"> |  </span><a href="#top">To top >></a>
  - performs in depth DOM-tree traversal for DOM preprocessing:
  
  ```javascript
@@ -118,9 +118,23 @@ pro.http.on(401, function () {
 
 ---
 
-### &lt;script src="pro.time.js">&lt;/script> <span id="time"> |  </span><a href="#top">To top >></a>
+### **pro.time** <span id="time"> |  </span><a href="#top">To top >></a>
 - contains time-related helpers available via `pro.time` object.
 
 ---
+
+### **More pro-functions**
+
+```javascript
+pro.safe(callback)(); // Safe function wrapper to avoid 'callback is not defined' exceptions
+pro.JSON(function (jsonObject) { ... }); // See sources for more details :)
+```
+
+Extends Array objects:
+
+```javascript
+var list = [1, 4, 23];
+list.remove(23); // Removes specified element(s) from array
+```
 
 ## [MIT license](http://opensource.org/licenses/MIT)
