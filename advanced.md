@@ -2,7 +2,7 @@
 <strong>Advanced: </strong> <a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a> >> *[Basic](README.md#top)*
 
 ### Smart start
-Look under the framework's hood with raw sources (**uncompressed size < 23KB**):
+Look under the framework's hood and try to understand how it is built:
 
 ```html
 <script src="pro.js"></script>     <!-- DOM-methods aliases -->
