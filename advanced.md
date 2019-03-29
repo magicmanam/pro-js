@@ -1,5 +1,5 @@
 <span id="top"></span>
-**Advanced: ** <a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a> >> *[Basic](README.md#top)*
+<strong>Advanced: </strong> <a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a> >> *[Basic](README.md#top)*
 
 ### **Smart start**
 Look under the framework's hood and try to understand how it is built:
@@ -19,23 +19,8 @@ Look under the framework's hood and try to understand how it is built:
 ---
 
 ### **pro.core** <span id="core"></span> | <a href="#top">To top >></a>
-Provides **sync** event-based programming model with *fluent* `on/once/no/out` interface.
-Use `pro.core` constructor-function to create complex ProJS-like components:
 
 ```javascript
-var unit = new pro.core();
-
-/* Subscribe on event. If event was triggered, listener is executed
-immediately. To override this pass the third 'skipLast' argument as true. */ 
-unit.on('event', function (eventData /*, function callback() { 'I am optional'; } */) {
-               console.log('Event was triggered: ' + eventData);
-             }/*, true */);
-
-// Triggers event. Optional the third callback can be executed after all listeners (* bug here *)
-unit.out('event', 23 /*, function () { console.log('Well done!'); } */);
-//  Event was triggered: 23
-//  Well done!
-
 // One-time listener
 function listener(eventData) { }
 unit.once('event', listener /*, true */);

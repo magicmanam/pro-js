@@ -1,5 +1,5 @@
 <span id="top"></span>
-<strong>Basic: </strong> <a href="#unit">Unit</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> | <a href="tut-by">Example</a> >> *[Advanced](advanced.md#top)*
+<strong>Basic: </strong> <a href="#core">Core</a> | <a href="#unit">Unit</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> | <a href="tut-by">Example</a> >> *[Advanced](advanced.md#top)*
 
 
 ### **Simple start**
@@ -37,6 +37,26 @@ element.no('event', listener); // Removes an event listener
 element.toChildFree(); // Removes all childs (makes an element child free)
 ```
 
+---
+
+### **pro.core** <span id="core"></span> | <a href="#top">To top >></a>
+Provides **sync** event-based programming model with *fluent* `on/once/no/out` interface.
+Use `pro.core` constructor-function to create complex ProJS-like components:
+
+```javascript
+var unit = new pro.core();
+
+/* Subscribe on event. If event was triggered, listener is executed
+immediately. To override this pass the third 'skipLast' argument as true. */ 
+unit.on('event', function (eventData /*, function callback() { 'I am optional'; } */) {
+               console.log('Event was triggered: ' + eventData);
+             }/*, true */);
+
+// Triggers event. Optional the third callback can be executed after all listeners (* bug here *)
+unit.out('event', 23 /*, function () { console.log('Well done!'); } */);
+//  Event was triggered: 23
+//  Well done!
+```
 ---
 
 ### **pro.unit** <span id="unit"> |  </span><a href="#top">To top >></a>
