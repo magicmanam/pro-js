@@ -38,4 +38,8 @@
 
         return core;
     }
+
+    pro.tree.on('document', function () {
+        pro.tree.depth(document.children);
+    });
 })(pro);

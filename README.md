@@ -40,14 +40,14 @@ element.toChildFree(); // Removes all childs (makes an element child free)
 ---
 
 ### **pro.core** <span id="core"></span> | <a href="#top">To top >></a>
-Provides **sync** event-based programming model with *fluent* `on/once/no/out` interface.
+Provides **sync** event-based programming model with fluent `on/once/no/out` interface.
 Use `pro.core` constructor-function to create complex ProJS-like components:
 
 ```javascript
 var unit = new pro.core();
 
-/* Subscribe on event. If event was triggered, listener is executed
-immediately. To override this pass the third 'skipLast' argument as true. */ 
+/* Subscribe on event. If event was already triggered, listener is executed
+immediately with last event object. To override this pass the third 'skipLast' argument as true. */ 
 unit.on('event', function (eventData /*, function callback() { 'I am optional'; } */) {
                console.log('Event was triggered: ' + eventData);
              }/*, true */);
@@ -56,6 +56,9 @@ unit.on('event', function (eventData /*, function callback() { 'I am optional'; 
 unit.out('event', 23 /*, function () { console.log('Well done!'); } */);
 //  Event was triggered: 23
 //  Well done!
+
+// The same as this short alias:
+unit.event(23 /*, function () { ... } */);
 ```
 ---
 
@@ -118,7 +121,6 @@ In case you have to violate **SOLID** world, consider `Service Locator` sin:
 ```javascript
 // Somewhere you can not define unit with injected dependency
 // and have access only to your application instance
-...
 app.on('auth-unit', function (authUnit) {
     authUnit.to('login');
 });
@@ -157,7 +159,7 @@ In case your code unit depends on this markup, use `pro.load` object:
 
 ```javascript
 pro.load.on('news-component.html', function (newsContainerDiv) {
-  // After markup loading and all `pro.load.on(200, ...)` listeners
+  // After markup loading and all pro.load.on(200, ...) listeners
   app.unit('NewsList')
      .on('NewsStore')
      .out(function (newsStore) { ... });
@@ -169,8 +171,8 @@ pro.load.on('news-component.html', function (newsContainerDiv) {
 Introduces observable wrapper over JS-objects and arrays:
 
 ```javascript
-var model = { topic: 'Sample', text: 'Observable model' },
-    news = pro.data(model); // Or empty observable: 'pro.data();'
+var sampleModel = { topic: 'Sample', text: 'Observable model' },
+    news = pro.data(sampleModel); // Or define empty observable: 'pro.data();'
 
 news.topic.on(function (topic) {
     // On topic change
@@ -246,14 +248,16 @@ Introduces UI-view which can be binded to model. Sample with markup loaded via `
 
 ```javascript
 pro.load.once('news-template.html', function (view) {
-    'use strict';
-    // Define view named 'news-view'
-    pro.view.name('news-view')(function () {
-            return view.cloneNode(true);
-        }) // It was markup-factory function
-        .on(function (model) { // Executed on model binding
-            this.out('hidden');
-        });
+  'use strict';
+  // Define view named 'news-view'
+  pro.view.name('news-view')(function () {
+      return view.cloneNode(true);
+      // Or create new element
+	  // Or get element by css-class / id 
+    }) // It was markup-factory function
+    .on(function (model) { // Executed on model binding
+      this.out('hidden');
+    });
 });
 ```
 
@@ -280,7 +284,8 @@ newsList.forEach(function (newsModel) {
 Implements **Model-View-ViewModel** pattern. ViewModel here is an observable `pro.data` object binded to HTML-element as following:
 
 ```javascript
-var viewModel = pro.data({ newsList: [], nextPageUrl: '/next' });
+var model = { newsList: [], nextPageUrl: '/next' },
+    viewModel = pro.data(model);
 
 pro.mvvm.to(proId('news-container'), viewModel);
 ```
@@ -308,5 +313,7 @@ viewModel.newsList([{ topic: '...', text: '...' }]);
 // The html above will be immediately updated
 ```
 ---
+**Continue** on [advanced level](advanced.md#top)
+
 
 ## [MIT license](http://opensource.org/licenses/MIT)

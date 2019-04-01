@@ -4,6 +4,7 @@
     'use strict';
 
     var globalCore = new Core();
+
     Core.error = function (callback) {
         globalCore.on('error', callback);
     };
@@ -31,7 +32,7 @@
                 } catch (err) { outError(err); }
             }
         } else {
-            this.setEventData(action, { listeners: [listener], onceListeners: [] });
+            this.setEventData(action, { listeners: [listener] });
             this[action] = function (model, callback) {
                 return this.out(action, model, callback);
             };
@@ -45,29 +46,18 @@
 
         if (eventData) {
             eventData.listeners.remove(listener);
-            eventData.onceListeners.remove(listener);
         }
 
         return this;
     };
 
     Core.prototype.once = function (action, callback, skipLast) {
-        var eventData = this.getEventData(action);
+        var me = this;
 
-        if (eventData) {
-            if (eventData.containsEventValue && !skipLast) {
-                try {
-                    callback(eventData.lastEventValue);
-                } catch (err) { outError(err); }
-            } else {
-                eventData.onceListeners.push(callback);
-            }
-        } else {
-            this.setEventData(action, { listeners: [], onceListeners: [callback] });
-            this[action] = function (model, callback) {
-                return this.out(action, model, callback);
-            };
-        }
+        this.on(action, function () {
+            me.no(action, callback);
+            callback.apply(me, arguments);
+        }, skipLast);
 
         return this;
     };
@@ -82,16 +72,10 @@
                     listener(value, callback);
                 } catch (err) { outError(err); }
             });
-            eventData.onceListeners.forEach(function (listener) {
-                try {
-                    listener(value, callback);
-                } catch (err) { outError(err); }
-            });
-            eventData.onceListeners = [];
             eventData.lastEventValue = value;
             eventData.containsEventValue = true;
         } else {
-            this.setEventData(action, { lastEventValue: value, listeners: [], onceListeners: [], containsEventValue: true });
+            this.setEventData(action, { lastEventValue: value, listeners: [], containsEventValue: true });
         }
 
         return this;

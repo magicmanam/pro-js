@@ -1,7 +1,5 @@
 var app = new pro.Unit(); // Initializes a new application unit
 
-pro.tree.depth(document.children);
-
 app.unit('NewsStore') // Defines 'NewsStore' unit inside of the application
     .out(function () { // Initialization function. 'this' refers to the unit itself
         var me = this;
@@ -133,3 +131,5 @@ pro.load.once('news-template.html', function (view) {
         this.out('hidden');
     });
 });
+
+pro.tree.document();

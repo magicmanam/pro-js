@@ -1,7 +1,8 @@
 ﻿(function (pro) {
     'use strict';
 
-    var core = new pro.core();
+    var core = new pro.core(),
+        pending = 0;
 
     core.to = function (url) {
         var xhttp = new XMLHttpRequest(),
@@ -36,6 +37,7 @@
                     callback(response, status);
                 });
 
+                core.out('pending', --pending);
                 core.out('end', response);
             }
         };
@@ -70,6 +72,7 @@
                     xhttp.setRequestHeader(header.h, header.v);
                 })
                 xhttp.send(typeof data === 'object' ? JSON.stringify(data) : data);
+                core.out('pending', ++pending);
                 core.out('send', that);
 
                 return that;

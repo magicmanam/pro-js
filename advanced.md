@@ -76,6 +76,19 @@ pro.http.on(401, function () {
   loginUnit.open(); // Sends 'open'-event to loginUnit
 });
 ```
+
+There is a special `pending` global event which is triggered before and after every request:
+
+```javascript
+pro.http.on('pending', function yourListener(count) {
+  // count parameter contains number of pending requests at the moment
+  if (count === 0) { // sample of using
+    //hideLoader();
+  } else {
+    //showLoader();
+  }
+});
+```
 ---
 
 ### **pro.tree** <span id="tree"> |  </span><a href="#top">To top >></a>
@@ -91,12 +104,18 @@ Performs in depth DOM-tree traversal for DOM preprocessing:
     // Tree was traversed and all nodes are processed..
  });
 
- // Initialize tree traversal for elements:
- pro.tree.depth(document.children);
+ // Initialize tree traversal for all DOM-elements:
+ pro.tree.document();
 
- // In case you need a new 'tree', create it
+ // Above line is the alias for the following
+ pro.tree.depth(document.children);
+ // depth-method accepts array of elements to be traversed which can be used for any elements array
+
+ // In case you need a new 'tree', just create it:
  var tree = pro.tree.new();
- // Use 'tree' variable as 'pro.tree' object above
+ // Now use tree-variable as 'pro.tree' object above
+ tree.depth(element.children); // Initialize traversal on element's children
+ tree.depth([element]); // In case you need traverse element itself with its children
  ```
 
  > Pro-philosophy: see in sources of `pro.load.js` file below how to use `pending` event for advanced scenarios.
