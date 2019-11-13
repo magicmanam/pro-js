@@ -284,7 +284,13 @@ newsList.forEach(function (newsModel) {
 Implements **Model-View-ViewModel** pattern. ViewModel here is an observable `pro.data` object binded to HTML-element as following:
 
 ```javascript
-var model = { newsList: [], nextPageUrl: '/next', styles: { display: 'none' }, placeholder: 'Your placeholder', value: 'Default value' },
+var model = {
+        newsList: [],
+        nextPageUrl: '/next',
+        styles: { display: 'none' },
+        placeholder: 'Your placeholder',
+        modelValue: 'Default value'
+    },
     viewModel = pro.data(model);
 
 pro.mvvm.to(proId('news-container'), viewModel);
@@ -296,7 +302,7 @@ Here is how markup looks like:
 
 ```html
 <div id="news-container" pro="css(styles)">
-	<input pro="place(placeholder); value(modelValue)" />
+    <input pro="place(placeholder); value(modelValue)" />
     <div pro="show(newsList.length === 0)">There are no news to read.</div>
     <div pro="each(newsList, view('news-view'))">
         <!-- Here will be inserted list of news view -->

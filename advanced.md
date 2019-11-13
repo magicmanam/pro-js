@@ -21,10 +21,9 @@ Look under the framework's hood and try to understand how it is built:
 ### **pro.core** <span id="core"></span> | <a href="#top">To top >></a>
 
 ```javascript
-// One-time listener
-function listener(eventData) { }
-// skipLast - optional boolean argument
+function oneTimeListener(eventData) { }
 coreInstance.once('event', listener /*, skipLast */);
+// skipLast - optional boolean argument
 
 // Removes specified listener from regular- and once- listeners
 coreInstance.no('event', listener);
@@ -98,23 +97,23 @@ Full `pro.http`-events lifecycle:
 
 ```javascript
 var httpInstance = pro.http.to('server-url')
-						.on(200, function () { })
-						.get();
+                           .on(200, function () { })
+                           .get();
 
 // Events subscription in the order as they will be launched:
 pro.http.on('open', function (httpInstance) { /* Request was opened */ });
 pro.http.on('pending', function (pendingRequestsCount) {});
 pro.http.on('send', function (httpInstance) { /* Request was sent */ });
 
-// Server is processing your request
+// Now server is processing your request
 
 pro.http.on('pending', function (pendingRequestsCount) { /* Response was received */ });
 
 httpInstance.on(200 /* 500 or other http code */, function ({ data: responseText, status: httpStatus, url, requestUrl }) {});
 pro.http.on(200 /* 500 or other http code */, function (responseText) {}); // Please do not ask me why this callback is being received response text and not the object as listener above
 
-httpInstance.on('success|fail|redirect', function ({ data: responseText, status: httpStatus, url, requestUrl }) {});
-pro.http.on('success|fail|redirect', function ({ data: responseText, status: httpStatus, url, requestUrl }) {});
+httpInstance.on('success|redirect|fail', function ({ data: responseText, status: httpStatus, url, requestUrl }) {});
+pro.http.on('success|redirect|fail', function ({ data: responseText, status: httpStatus, url, requestUrl }) {});
 // 'success' < 300
 // 300 <= 'redirect' < 400
 // 'fail' >= 400
@@ -180,7 +179,7 @@ var list = [1, 4, 23];
 
 list.remove(23); // Removes specified element(s) from array
 
-var newList = list.clone(); // Shallow copy
+var newList = list.clone(); // Creates shallow copy
 ```
 
 ## [MIT license](http://opensource.org/licenses/MIT)
