@@ -22,11 +22,11 @@ Look under the framework's hood and try to understand how it is built:
 
 ```javascript
 function oneTimeListener(eventData) { }
-coreInstance.once('event', listener /*, skipLast */);
+coreInstance.once('event', oneTimeListener /*, skipLast */);
 // skipLast - optional boolean argument
 
 // Removes specified listener from regular- and once- listeners
-coreInstance.no('event', listener);
+coreInstance.no('event', oneTimeListener);
 ```
  
 Use `pro.core` object to register global error handler for all ProJS core's listeners:
@@ -179,7 +179,7 @@ var list = [1, 4, 23];
 
 list.remove(23); // Removes specified element(s) from array
 
-var newList = list.clone(); // Creates shallow copy
+var newList = list.clone(); // Creates a shallow copy
 ```
 
 ## [MIT license](http://opensource.org/licenses/MIT)
