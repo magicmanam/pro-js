@@ -284,7 +284,7 @@ newsList.forEach(function (newsModel) {
 Implements **Model-View-ViewModel** pattern. ViewModel here is an observable `pro.data` object binded to HTML-element as following:
 
 ```javascript
-var model = { newsList: [], nextPageUrl: '/next' },
+var model = { newsList: [], nextPageUrl: '/next', styles: { display: 'none' }, placeholder: 'Your placeholder', value: 'Default value' },
     viewModel = pro.data(model);
 
 pro.mvvm.to(proId('news-container'), viewModel);
@@ -295,7 +295,8 @@ pro.mvvm.to(proId('news-container'), viewModel);
 Here is how markup looks like:
 
 ```html
-<div id="news-container">
+<div id="news-container" pro="css(styles)">
+	<input pro="place(placeholder); value(modelValue)" />
     <div pro="show(newsList.length === 0)">There are no news to read.</div>
     <div pro="each(newsList, view('news-view'))">
         <!-- Here will be inserted list of news view -->
@@ -305,7 +306,7 @@ Here is how markup looks like:
 </div>
 ```
 
-`pro`-attributes in markup contain valid JS-expressions with predefined list of hacks: `show`, `hide`, `each`, `view`, `text`, `html`, `href`, `value` - for DOM-manipulation with element.
+`pro`-attributes in markup contain valid JS-expressions with predefined list of hacks: `show`, `hide`, `each`, `view`, `text`, `html`, `href`, `value`, `css`, `place` - for DOM-manipulation with element.
 Markup is reevaluated on every model change. Extension point for custom hacks will be added later.
 
 ```javascript

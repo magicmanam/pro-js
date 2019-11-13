@@ -99,7 +99,7 @@ function pro(document, window) {
 
         elementProto.proSelector = function (selector) {
             return this.querySelector(selector);
-        }
+        };
 
         elementProto.proId = function (id) {
             return this.proSelector('#' + id);
@@ -107,14 +107,18 @@ function pro(document, window) {
 
         elementProto.toChildFree = function () {
             while (this.firstChild) { this.removeChild(this.firstChild); }
-        }
+        };
     }
 
     Array.prototype.remove = function (item) {
         for (let i = 0; i < this.length; i++) if (this[i] === item) {
             this.splice(i, 1);
         }
-    }
+    };
+
+    Array.prototype.clone = function () {
+        return this.slice(0);
+    };
 
     return pro;
 }

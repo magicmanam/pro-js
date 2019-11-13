@@ -16,15 +16,15 @@
                 pro.http
                     .to(url)
                     .on(200, function (response) {
-                        node.innerHTML = response;
+                        node.innerHTML = response.data;
                         loadNodeForFree(subTree);
                         subTree.depth(node.children);
                     })
-                    .on('end', function (response, status) {
+                    .on('end', function (response) {
                         subTree.on('end', function () {
                             node.out('pro-load');
-                            core.out(status, { url: url, element: node });
-                            if (status === 200) {
+                            core.out(response.status, { url: url, element: node });
+                            if (response.status === 200) {
                                 core.out(url, node);
                             }
                             tree.pending(-1);

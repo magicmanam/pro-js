@@ -6,48 +6,42 @@
 
     core.to = function (url) {
         var xhttp = new XMLHttpRequest(),
-            statusCallbacks = {},
-            sync = false,
-            headers = [];
+            innerCore = new pro.core(),
+            sync = false, headers = [],
+            status, response;
 
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4) {
-                let status = this.status;
-                let callbacks = statusCallbacks[status] || [];
-                let response = this.responseText;
-
-                core.out(status, response);
-
-                callbacks.forEach(function (callback) {
-                    callback(response);
-                });
-
-                if (this.status < 300) {
-                    callbacks = statusCallbacks['success'] || [];
-                } else if (this.status > 399) {
-                    callbacks = statusCallbacks['fail'] || [];
-                }
-
-                callbacks.forEach(function (callback) {
-                    callback(response, status);
-                });
-
-                callbacks = statusCallbacks['end'] || [];
-                callbacks.forEach(function (callback) {
-                    callback(response, status);
-                });
+                status = this.status;
+                response = this.responseText;
 
                 core.out('pending', --pending);
-                core.out('end', response);
+
+                let eventData = { data: response, status: status, url: url };
+                innerCore.out(status, eventData);
+                core.out(status, response);
+
+                let wellKnownEvent;
+                if (status < 300) {
+                    wellKnownEvent = 'success';
+                } else if (status > 399) {
+                    wellKnownEvent = 'fail';
+                } else {
+                    wellKnownEvent = 'redirect';
+                }
+
+                innerCore.out(wellKnownEvent, eventData);
+                core.out(wellKnownEvent, eventData);
+                
+                innerCore.out('end', eventData);
+                core.out('end', eventData);
             }
         };
 
         let that = {
-            on: function (status, callback) {
-                if (statusCallbacks[status]) {
-                    statusCallbacks[status].push(callback);
-                } else {
-                    statusCallbacks[status] = [callback];
+            on: function (httpStatus, callback) {
+                if (httpStatus) {
+                    innerCore.on(httpStatus, callback);
                 }
 
                 return that;
@@ -70,7 +64,7 @@
                 xhttp.open(verb, url, !sync);
                 headers.forEach(function (header) {
                     xhttp.setRequestHeader(header.h, header.v);
-                })
+                });
                 xhttp.send(typeof data === 'object' ? JSON.stringify(data) : data);
                 core.out('pending', ++pending);
                 core.out('send', that);
@@ -85,6 +79,12 @@
 
         return that;
     };
+
+    core.on('fail', function (errorEvent) {
+        if (!core.suppressErrors) {
+            throw errorEvent;
+        }
+    });
 
     pro.http = core;
 })(pro);

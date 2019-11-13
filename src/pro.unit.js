@@ -60,11 +60,12 @@
         return this;
     };
 
-    Unit.prototype.is = function (state) {
+    Unit.prototype.is = function (state) {// Add support of wildcard parameters: '*.state'
         return state === this.currentState;
     };
 
     Unit.prototype.unit = function (name) {
+        // Should I subscribe on unit's exception? In this case I should rethrow it if an error occurred in any unit
         var unit = { name: name },
             unitFunc,
             parent = this,
@@ -87,7 +88,7 @@
 
                     if (unresolvedDependenciesCount > 0) {
                         withDeps = true;
-                        dependenciesArray = Array(dependencies.length)
+                        dependenciesArray = Array(dependencies.length);
 
                         for (; index < dependencies.length; index++) {
                             parent.once(dependencies[index], (function (ind) {
@@ -114,7 +115,7 @@
             //TODO: for debug
             window.units = window.units || [];
             window.units.push(name);//for debug
-        };
+        }
 
         return unit;
     };

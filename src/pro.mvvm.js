@@ -31,6 +31,18 @@
         }
         function value(value) { _value.call(node, value); }
 
+        function _css(styles) {
+            for (var prop in styles) {
+                this.style[prop] = styles[prop];
+            }
+        }
+        function css(styles) { _css.call(node, styles); }
+
+        function _placeholder(value) {
+            this.placeholder = value || '';
+        }
+        function place(value) { _placeholder.call(node, value); }
+
         function _text(value) {
             this.textContent = value || '';
         }
