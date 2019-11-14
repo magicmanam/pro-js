@@ -1,5 +1,5 @@
 <span id="top"></span>
-<strong>Advanced: </strong> <a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a> >> *[Basic](README.md#top)*
+<strong>Advanced: </strong> <a href="#core">Core</a> | <a href="#http">Http</a> | <a href="#tree">Tree</a> | <a href="#time">Time</a> >> *[Basics](README.md#top)* | *[FAQs](FAQs.md#top)*
 
 ### **Smart start**
 Look under the framework's hood and try to understand how it is built:

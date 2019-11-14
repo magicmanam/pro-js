@@ -1,5 +1,5 @@
 <span id="top"></span>
-<strong>Basic: </strong> <a href="#core">Core</a> | <a href="#unit">Unit</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> | <a href="tut-by">Example</a> >> *[Advanced](advanced.md#top)*
+<strong>Basics: </strong> <a href="#core">Core</a> | <a href="#unit">Unit</a> | <a href="#load">Load</a> | <a href="#data">Data</a> | <a href="#view">View</a> | <a href="#mvvm">MVVM</a> | <a href="tut-by">Example</a> >> *[Advanced](advanced.md#top)* | *[FAQs](FAQs.md#top)*
 
 
 ### **Simple start**
@@ -40,7 +40,7 @@ element.toChildFree(); // Removes all childs (makes an element child free)
 ---
 
 ### **pro.core** <span id="core"></span> | <a href="#top">To top >></a>
-Provides **sync** event-based programming model with fluent `on/once/no/out` interface.
+Provides **sync** event-based programming model with fluent `on/once/no/out` interface. **Sync** model means that when any component triggers some event, all it's listeners are executed immediately.
 Use `pro.core` constructor-function to create complex ProJS-like components:
 
 ```javascript
