@@ -32,7 +32,7 @@ No. This framework provides a tiny interface for HTML elements querying (which i
 ---
 
 ### **Do you have own Javascript file loader like CommonJS, RequireJS?**
-Answer is the same as for JQuery - NO. `CommonJS`/`RequireJS`/other file loader make its stuff pretty well and we believe you do not need to learn and master another alternative.
+Answer is the same as for `JQuery` - NO. `CommonJS`/`RequireJS`/other file loader make its stuff pretty well and we believe you do not need to learn and master another alternative.
 
 ---
 

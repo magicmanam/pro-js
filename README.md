@@ -44,21 +44,21 @@ Provides **sync** event-based programming model with fluent `on/once/no/out` int
 Use `pro.core` constructor-function to create complex ProJS-like components:
 
 ```javascript
-var unit = new pro.core();
+var component = new pro.core();
 
 /* Subscribe on event. If event was already triggered, listener is executed
 immediately with last event object. To override this pass the third 'skipLast' argument as true. */ 
-unit.on('event', function (eventData /*, function callback() { 'I am optional'; } */) {
+component.on('event', function (eventData /*, function callback() { 'I am optional'; } */) {
                console.log('Event was triggered: ' + eventData);
              }/*, true */);
 
 // Triggers event. Optional the third callback can be executed after all listeners (* bug here *)
-unit.out('event', 23 /*, function () { console.log('Well done!'); } */);
+component.out('event', 23 /*, function () { console.log('Well done!'); } */);
 //  Event was triggered: 23
 //  Well done!
 
 // The same as this short alias:
-unit.event(23 /*, function () { ... } */);
+component.event(23 /*, function () { ... } */);
 ```
 ---
 
