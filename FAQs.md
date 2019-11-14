@@ -27,16 +27,16 @@ Yes, you can use any Pro-JS module independently (for HTTP-requests, dynamic HTM
 ---
 
 ### **Is this alternative of JQuery library?**
-No. This framework provides a tiny interface for HTML elements querying (which is only a small part of all possibilities) and allows you do not depend on JQuery in most of situations. But we believe we do not need to create another 'JQuery'.
+No. This framework provides a tiny interface for HTML elements querying (which is only a small part of all possibilities) and allows you do not depend on JQuery in most of situations. But we believe we do not need to create another `JQuery`.
 
 ---
 
 ### **Do you have own Javascript file loader like CommonJS, RequireJS?**
-No. Answer is the same as for JQuery - CommonJS/RequireJS and any other file loader make its stuff pretty well and we believe you do not need to learn and master another alternative.
+Answer is the same as for JQuery - NO. CommonJS/RequireJS/other file loader make its stuff pretty well and we believe you do not need to learn and master another alternative.
 
 ---
 
-**Get started with** [basics](readme.md#top)
+**Get started with** *[basics](readme.md#top)* or master advanced *[part](advanced.md#top)*
 
 
 ## [MIT license](http://opensource.org/licenses/MIT)
