@@ -8,7 +8,7 @@ app.unit('NewsStore') // Defines 'NewsStore' unit inside of the application
             .on('load-news', function (eventModel, callback) {
                 pro.http.to('api/news') // Defines request to the endpoint
                     .on(200, function (response) { // On HTTP 200 status code
-                        response = JSON.parse(response).data;
+                        response = JSON.parse(response.data);
                         me.out('news-loaded', response);
                         callback();
                     })
@@ -29,7 +29,7 @@ app.unit('NewsStore') // Defines 'NewsStore' unit inside of the application
             .on('load-no-news', function (eventModel, callback) {
                 pro.http.to('api/no-news') // Defines request to the endpoint
                     .on(200, function (response) { // On HTTP 200 status code
-                        response = JSON.parse(response).data;
+                        response = JSON.parse(response.data);
                         me.out('news-loaded', response);
                         callback();
                     })
