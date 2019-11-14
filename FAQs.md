@@ -1,5 +1,5 @@
 <span id="top"></span>
-<strong>FAQs</strong> | *[Basics](readme.md#top)* | *[Advanced](advanced.md#top)*
+<strong>FAQs</strong> | *[Basics](README.md#top)* | *[Advanced](advanced.md#top)*
 
 
 ### **Why you just created another bicycle?**
@@ -32,11 +32,11 @@ No. This framework provides a tiny interface for HTML elements querying (which i
 ---
 
 ### **Do you have own Javascript file loader like CommonJS, RequireJS?**
-Answer is the same as for JQuery - NO. CommonJS/RequireJS/other file loader make its stuff pretty well and we believe you do not need to learn and master another alternative.
+Answer is the same as for JQuery - NO. `CommonJS`/`RequireJS`/other file loader make its stuff pretty well and we believe you do not need to learn and master another alternative.
 
 ---
 
-**Get started with** *[basics](readme.md#top)* or master advanced *[part](advanced.md#top)*
+**Get started with** *[basics](README.md#top)* or master *[advanced part](advanced.md#top)*
 
 
 ## [MIT license](http://opensource.org/licenses/MIT)
