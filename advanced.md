@@ -29,7 +29,7 @@ coreInstance.once('event', oneTimeListener /*, skipLast */);
 coreInstance.no('event', oneTimeListener);
 ```
  
-Use `pro.core` object to register global error handler for all ProJS core's listeners:
+Use `pro.core` object to register global error handler for all listeners:
 ```javascript
 pro.core.error(function yourGlobalErrorHandler({ error: thrownException, core: coreInstanceWhereExceptionWasOccurred }) { console.log('I am catching all errors!'); });
 

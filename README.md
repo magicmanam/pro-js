@@ -41,7 +41,8 @@ element.toChildFree(); // Removes all childs (makes an element child free)
 
 ### **pro.core** <span id="core"></span> | <a href="#top">To top >></a>
 Provides **sync** event-based programming model with fluent `on/once/no/out` interface. **Sync** model means that when any component triggers some event, all it's listeners are executed immediately.
-Use `pro.core` constructor-function to create complex ProJS-like components:
+
+Use `pro.core` constructor-function to create complex Pro-JS components:
 
 ```javascript
 var component = new pro.core();
@@ -91,7 +92,7 @@ app.unit('NewsList') // Defines 'NewsList' unit
   .out(function (newsStore) {
     var me = this;
     
-    me.state('no-news') // Defines optional state
+    me.state('no-news') // Defines state
         .to(function () { // Execute on entering into the state
            proId('blank-text').out('hidden'); // Removes 'hidden' attribute
         }) // Returns state object with 'out' method
@@ -101,7 +102,7 @@ app.unit('NewsList') // Defines 'NewsList' unit
       .state('news')
         .to(function (news) { ... });
       
-    me.to('no-news'); // Go to initial state, if you wish...
+    me.to('no-news'); // Go to initial state
       
     newsStore.on('news-loaded', function (newsList) {
        if (newsList && newsList.length > 0) {
@@ -133,7 +134,7 @@ Subscribes on [DOM-tree traversal](advanced.md#tree) and loads HTML content for 
 
 `<div pro-load="news-component.html"></div>`
 
-Content for the element above will be downloaded from the specified url. **Nested** 'pro-load'-elements are supported, content for them will be loaded immediately.
+Content for the element above will be downloaded from the specified url. **Nested** 'pro-load'-elements are supported, content for them is loaded immediately.
 
 To handle situations with html missing, subscribe on `pro.load` 404 event:
 
@@ -296,7 +297,7 @@ var model = {
 pro.mvvm.to(proId('news-container'), viewModel);
 ```
 
-> After that you need change only view model - markup will be updated on the fly!
+> After that you need change only view model - markup is updated on the fly!
 
 Here is how markup looks like:
 
