@@ -1,13 +1,13 @@
-﻿var pro = pro(document, window);
+﻿var pro = proFn(document);
 
-function pro(document, window) {
+function proFn(document) {
     'use strict';
 
     var pro = {
         JSON: function (callback) {
             return function (data) {
                 return callback(JSON.parse(data));
-            }
+            };
         },
         safe: function (callback) {
             return callback || function () { };
